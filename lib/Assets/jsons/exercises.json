@@ -1,0 +1,22 @@
+[
+  {
+    "group": "Chest",
+    "color": 1,
+    "names": ["Incline", "Press", "PushUp"]
+  },
+  {
+    "group": "Back",
+    "color": 2,
+    "names": ["Row", "Rows2", "Rows3"]
+  },
+  {
+    "group": "Leg",
+    "color": 3,
+    "names": ["Press", "Rows2", "Rows3"]
+  },
+  {
+    "group": "Shoulder",
+    "color": 4,
+    "names": ["Row", "Rows2", "Rows3"]
+  }
+]
