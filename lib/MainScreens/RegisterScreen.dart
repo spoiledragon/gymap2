@@ -1,4 +1,4 @@
-// ignore_for_file: no_leading_underscores_for_local_identifiers
+// ignore_for_file: no_leading_underscores_for_local_identifiers, must_be_immutable, file_names
 
 import 'dart:convert';
 
@@ -201,6 +201,7 @@ class RegisterScreen extends HookConsumerWidget {
                   "",
                   ref.read(weightRegisterProvider.state).state,
                   ref.read(ageRegisterProvider.state).state);
+              Navigator.of(context).pop();
             }
           },
           child: const Text("Register"),
@@ -296,6 +297,7 @@ class RegisterScreen extends HookConsumerWidget {
                 } else {
                   return "This Cant be Blank!";
                 }
+                return null;
               },
             ),
           ],

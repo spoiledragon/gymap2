@@ -48,10 +48,8 @@ class LoginPage extends HookConsumerWidget {
           //MANDAMOS A GUARDAR QUE SI ESTA LOGEADO
           await prefs.setBool('isLoged', true);
           //EMPUJAMOS LA MATERIAL PAGE CON EL DATO DEL USERNAME CONTROLLER PORQUE SI
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => HomeScreen(
-                    user,
-                  )));
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => const HomeScreen()));
         }
       }
     }

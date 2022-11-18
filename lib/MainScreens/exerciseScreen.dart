@@ -8,6 +8,7 @@ import 'package:gymap/Extras/ExerciseLabel.dart';
 import 'package:gymap/Extras/SilverSearchPage.dart';
 import 'package:gymap/MainScreens/addExerciseScreen.dart';
 import 'package:gymap/MainScreens/profileScreen.dart';
+import 'package:gymap/States/states.dart';
 import 'package:gymap/classes/localExercise.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
@@ -16,6 +17,9 @@ class ExercisePage extends HookConsumerWidget {
   const ExercisePage({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    //Provider
+    final String profilePicture =
+        ref.read(userProvider.state).state.profilePicture;
     final ejercicios = ref.watch(localExerciseProvider);
     /*
     final LocalExercise tester = LocalExercise(
@@ -51,8 +55,8 @@ class ExercisePage extends HookConsumerWidget {
         ),
         actions: [
           InkWell(
-            child: const CircleAvatar(
-              backgroundImage: AssetImage('lib/Assets/images/login.jpg'),
+            child: CircleAvatar(
+              backgroundImage: NetworkImage(profilePicture),
             ),
             onTap: () => Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) => const ProfileScreen())),

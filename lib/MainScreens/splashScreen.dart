@@ -7,6 +7,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 
 import 'package:gymap/MainScreens/homeScreen.dart';
 import 'package:gymap/MainScreens/loginScreen.dart';
+import 'package:gymap/States/states.dart';
 import 'package:gymap/classes/exercise.dart';
 import 'package:gymap/classes/localExercise.dart';
 import 'package:gymap/classes/user.dart';
@@ -60,18 +61,21 @@ class SplashScreen extends HookConsumerWidget {
         final prefs = await SharedPreferences.getInstance();
         //LE DECIMOS QUE NOS CONSIGA EL STRING LLAMADO USER Y LO GUARDE EN EL DATO USERPREF
         final jsondata = jsonDecode(prefs.getString('user') ?? "");
-
+      
         final user = User.fromJson(jsondata);
+        ref.read(userProvider.state).state = user;
+
         //!Guardaremos al usuario en el provider
 
-      
         //Cuando todo esta hecho ya solo cargamos el json
         readJson();
         getExercisesFromPreferences();
         //LO IMPRIMIMOS PARA VER QUE PEDO CON ESTO
 
-        Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => HomeScreen(user)));
+        Future.delayed(const Duration(seconds: 1), () {
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => const HomeScreen()));
+        });
       }
     }
 

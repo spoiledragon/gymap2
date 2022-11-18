@@ -23,4 +23,15 @@ final ageRegisterProvider = StateProvider<int>((ref) => 25);
 final weightRegisterProvider = StateProvider<int>((ref) => 100);
 final genderRegisterProvider = StateProvider<String>((ref) => "Male");
 
-
+//!! USER
+final userProvider = StateProvider<User>((ref) {
+  return User(
+      username: "",
+      nickname: "",
+      password: "",
+      family: "",
+      gender: "",
+      profilePicture: "",
+      age: 0,
+      weight: 0);
+});

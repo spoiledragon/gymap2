@@ -17,14 +17,14 @@ class User {
       required this.age,
       required this.weight});
 
-  String? username;
-  String? nickname;
-  String? password;
-  String? family;
-  String? gender;
-  String? profilePicture;
-  int? weight;
-  int? age;
+  final String username;
+  String nickname;
+  String password;
+  String family;
+  String gender;
+  String profilePicture;
+  int weight;
+  int age;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
         username: json['username'],
@@ -33,7 +33,7 @@ class User {
         family: json['family'],
         gender: json['gender'],
         age: json['age'],
-        weight: json['weigh'],
+        weight: json['weight'],
         profilePicture: json['profilePicture'],
       );
 
@@ -45,5 +45,6 @@ class User {
         "gender": gender,
         "age": age,
         "profilePicture": profilePicture,
+        "weight": weight,
       };
 }

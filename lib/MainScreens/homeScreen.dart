@@ -6,18 +6,20 @@ import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gymap/MainScreens/exerciseScreen.dart';
+import 'package:gymap/States/states.dart';
+
 import 'package:gymap/classes/exercise.dart';
-import 'package:gymap/classes/user.dart';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:ionicons/ionicons.dart';
 
 class HomeScreen extends HookConsumerWidget {
-  final User? user;
-  const HomeScreen(this.user);
+  const HomeScreen();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    //Providers
+    final String user = ref.read(userProvider.state).state.nickname;
     final List<Exercises> ejercicios = ref.watch(ExerciseProvider);
     //Funciones
 
@@ -34,7 +36,7 @@ class HomeScreen extends HookConsumerWidget {
 
     gotoExercisePage() {
       Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => ExercisePage()));
+          .push(MaterialPageRoute(builder: (context) => const ExercisePage()));
     }
 
     Widget goToExercisesBtn() {
@@ -130,7 +132,7 @@ class HomeScreen extends HookConsumerWidget {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: Text(
-                            "$user".toUpperCase(),
+                            user.toUpperCase(),
                             style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 32,
