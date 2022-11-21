@@ -1,5 +1,7 @@
 // ignore_for_file: file_names
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gymap/classes/exercise.dart';
@@ -28,9 +30,20 @@ class GroupListScreen extends ConsumerWidget {
       //creamos una Lista a partir de lso datos que ya tenemos uwu
       body: ListView.separated(
         separatorBuilder: (context, index) => divisor(ejercicio.color),
-        itemCount: ejercicio.names.length,
-        itemBuilder: (context, index) => Container(
-            height: 50, child: Center(child: Text(ejercicio.names[index]))),
+        itemCount: ejercicio.exercises.length,
+        itemBuilder: (context, index) {
+          //lo que hago aqui es crear un elemento simple de esta madre
+          Exercise singleExercise = ejercicio.exercises[index];
+          return InkWell(
+            onTap: () => log("Hola"),
+            child: SizedBox(
+              height: 100,
+              child: ListTile(
+                  title:
+                      Center(child: Center(child: Text(singleExercise.title)))),
+            ),
+          );
+        },
       ),
     );
   }

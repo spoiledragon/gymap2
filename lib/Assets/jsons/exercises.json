@@ -2,30 +2,69 @@
   {
     "group": "Chest",
     "color": 1,
-    "names": [
-      "Incline push up",
-      "Flat bench press",
-      "Incline bench press",
-      "Decline bench press",
-      "Pushup",
-      "Cable crossover",
-      "Chest dip",
-      "Resistance band pullover"
+    "exercises": [
+      {
+        "title": "Incline push up",
+        "info": "blablabla",
+        "image": "https://d.furaffinity.net/art/gb123456/1642484603/1642484603.gb123456_toprocess2.jpg"
+      },
+      {
+        "title": "Flat bench press",
+        "info": "blablabla",
+        "image": ""
+      },
+      {
+        "title": "Resistance band pullover",
+        "info": "blablabla",
+        "image": ""
+      },
+      {
+        "title": "Decline Press",
+        "info": "blablabla",
+        "image": ""
+      }
     ]
   },
   {
     "group": "Back",
     "color": 2,
-    "names": ["Row", "Rows2", "Rows3"]
+    "exercises": [
+      {
+        "title": "Row",
+        "info": "blablabla",
+        "image": ""
+      },
+      {
+        "title": "Rows1",
+        "info": "blablabla",
+        "image": ""
+      },
+      {
+        "title": "Rows3",
+        "info": "blablabla",
+        "image": ""
+      }
+    ]
   },
   {
     "group": "Leg",
     "color": 3,
-    "names": ["Press", "Rows2", "Rows3"]
-  },
-  {
-    "group": "Shoulder",
-    "color": 4,
-    "names": ["Row", "Rows2", "Rows3"]
+    "exercises": [
+      {
+        "title": "Leg1",
+        "info": "blablabla",
+        "image": ""
+      },
+      {
+        "title": "Leg2",
+        "info": "blablabla",
+        "image": ""
+      },
+      {
+        "title": "Leg3",
+        "info": "blablabla",
+        "image": ""
+      }
+    ]
   }
 ]

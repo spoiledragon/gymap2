@@ -1,4 +1,6 @@
-// ignore_for_file: non_constant_identifier_names
+// To parse this JSON data, do
+//
+//     final exercises = exercisesFromJson(jsonString);
 
 import 'dart:convert';
 
@@ -14,23 +16,48 @@ class Exercises {
   Exercises({
     required this.group,
     required this.color,
-    required this.names,
+    required this.exercises,
   });
 
   String group;
   int color;
-  List<String> names;
+  List<Exercise> exercises;
 
   factory Exercises.fromJson(Map<String, dynamic> json) => Exercises(
         group: json["group"],
         color: json["color"],
-        names: List<String>.from(json["names"].map((x) => x)),
+        exercises: List<Exercise>.from(
+            json["exercises"].map((x) => Exercise.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "group": group,
         "color": color,
-        "names": List<dynamic>.from(names.map((x) => x)),
+        "exercises": List<dynamic>.from(exercises.map((x) => x.toJson())),
+      };
+}
+
+class Exercise {
+  Exercise({
+    required this.title,
+    required this.info,
+    required this.image,
+  });
+
+  String title;
+  String info;
+  String image;
+
+  factory Exercise.fromJson(Map<String, dynamic> json) => Exercise(
+        title: json["title"],
+        info: json["info"],
+        image: json["image"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "title": title,
+        "info": info,
+        "image": image,
       };
 }
 

@@ -1,7 +1,7 @@
 // ignore_for_file: use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
-import 'package:gymap/MainScreens/splashScreen.dart';
+import 'package:gymap/SimpleScreens/splashScreen.dart';
 
 import 'package:gymap/States/states.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
