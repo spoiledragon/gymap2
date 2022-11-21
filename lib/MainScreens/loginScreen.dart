@@ -4,11 +4,14 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gymap/Extras/CustomClipper.dart';
 import 'package:gymap/MainScreens/RegisterScreen.dart';
 import 'package:gymap/MainScreens/homeScreen.dart';
+import 'package:gymap/classes/exercise.dart';
+import 'package:gymap/classes/localExercise.dart';
 import 'package:gymap/classes/user.dart';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -29,6 +32,34 @@ class LoginPage extends HookConsumerWidget {
 
     //!Por implementar
 
+    Future<void> readJson() async {
+      final String response =
+          await rootBundle.loadString('lib/Assets/jsons/exercises.json');
+
+      final data = await json.decode(response);
+
+      for (var exe in data) {
+        Exercises x = Exercises.fromJson(exe);
+        ref.read(ExerciseProvider.notifier).addExercise(x);
+        //print(x.group);
+      }
+    }
+
+    //!Funcion que trae de los shared preferences
+    void getExercisesFromPreferences() async {
+      //definimos los prefs
+      final prefs = await SharedPreferences.getInstance();
+      //creamos una lista dinamica condeando el en el jsondata
+      final List<dynamic> jsonData =
+          jsonDecode(prefs.getString('Exercises') ?? '[]');
+      //ya aqui tenemos los datos para ser almacenados en donde quieras
+      for (int i = 0; i < jsonData.length; i++) {
+        var exe = jsonData[i];
+        LocalExercise x = LocalExercise.fromJson(exe);
+        ref.read(localExerciseProvider.notifier).addExercise(x);
+      }
+    }
+
     void isValid() async {
       final prefs = await SharedPreferences.getInstance();
       final jsondata = jsonDecode(prefs.getString('user') ?? "");
@@ -40,11 +71,9 @@ class LoginPage extends HookConsumerWidget {
         if (userNameController.text == user.nickname &&
             passwordController.text == user.password) {
           //!SI ES VERDAD QUE ES CORRECTO LOS DATOS
+          readJson();
+          getExercisesFromPreferences();
 
-          //AHORA LLAMAMOS A LAS PREFS COMO SIEMPRE
-
-          //MANDAMOS A GUARDAR EL DATO USUARIO
-          // await prefs.setString('user', jsonEncode(user));
           //MANDAMOS A GUARDAR QUE SI ESTA LOGEADO
           await prefs.setBool('isLoged', true);
           //EMPUJAMOS LA MATERIAL PAGE CON EL DATO DEL USERNAME CONTROLLER PORQUE SI

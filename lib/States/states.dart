@@ -35,3 +35,9 @@ final userProvider = StateProvider<User>((ref) {
       age: 0,
       weight: 0);
 });
+
+//Reloj
+final timeGlobalProvider = StateProvider<int>((ref) {
+  return 120;
+});
+final maingymBroProvider = StateProvider<String>((ref) => "");

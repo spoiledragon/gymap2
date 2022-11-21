@@ -2,15 +2,15 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import 'package:gymap/Extras/ExerciseLabel.dart';
-
 import 'package:gymap/Extras/SilverSearchPage.dart';
 import 'package:gymap/MainScreens/addExerciseScreen.dart';
 import 'package:gymap/MainScreens/profileScreen.dart';
+import 'package:gymap/SimpleScreens/singleExerciseScreen.dart';
 import 'package:gymap/States/states.dart';
 import 'package:gymap/classes/localExercise.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:ionicons/ionicons.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 class ExercisePage extends HookConsumerWidget {
@@ -37,6 +37,10 @@ class ExercisePage extends HookConsumerWidget {
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
+        child: const Icon(
+          Ionicons.add,
+          color: Colors.white,
+        ),
         onPressed: () {
           Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => const AddExerciseScreen()));
@@ -63,24 +67,42 @@ class ExercisePage extends HookConsumerWidget {
           )
         ],
       ),
+      //!SCROLL VIEW
       body: CustomScrollView(
+        //!Barra de busqueda
         slivers: [
           const SliverPersistentHeader(
             delegate: SliverSearchAppBar(),
             // Set this param so that it won't go off the screen when scrolling
             pinned: true,
           ),
-          //! Lista a desplegar
+          //! Lista a
           SliverList(
             delegate:
                 SliverChildBuilderDelegate((BuildContext context, int index) {
+              //Generamos el ejercicio del index
               final ejercicio = ejercicios[index];
               return Container(
-                  margin: const EdgeInsets.all(8),
-                  padding: const EdgeInsets.all(16),
+                //generamos un margin y padding
+                margin: const EdgeInsets.all(8),
+                padding: const EdgeInsets.all(16),
+                //creamos un widget inkwell para que sea presionable
+                child: InkWell(
+                  //si lo presinamos una vez lo mandamos a la pagina del widget
+                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                      builder: ((context) =>
+                          SingleExerciseScreen(exercise: ejercicio)))),
+                  //si lo dejamos presionado entonces lo borramos
+                  onLongPress: () => ref
+                      .read(localExerciseProvider.notifier)
+                      .removeExercise(ejercicio.name, ejercicio.weight),
+                  //como widget hijo es el ejercicio en forma grafica con el objeto interno ejercicio de forma de datos
                   child: ExerciseWidget(
                     exercise: ejercicio,
-                  ));
+                  ),
+                ),
+              );
+              //que se repita hasta que sea igual a la lista de ejercicios que se saca del provider
             }, childCount: ejercicios.length),
           )
         ],

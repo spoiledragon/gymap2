@@ -61,7 +61,7 @@ class SplashScreen extends HookConsumerWidget {
         final prefs = await SharedPreferences.getInstance();
         //LE DECIMOS QUE NOS CONSIGA EL STRING LLAMADO USER Y LO GUARDE EN EL DATO USERPREF
         final jsondata = jsonDecode(prefs.getString('user') ?? "");
-      
+
         final user = User.fromJson(jsondata);
         ref.read(userProvider.state).state = user;
 
@@ -71,11 +71,8 @@ class SplashScreen extends HookConsumerWidget {
         readJson();
         getExercisesFromPreferences();
         //LO IMPRIMIMOS PARA VER QUE PEDO CON ESTO
-
-        Future.delayed(const Duration(seconds: 1), () {
-          Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => const HomeScreen()));
-        });
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => const HomeScreen()));
       }
     }
 

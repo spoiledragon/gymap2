@@ -2,7 +2,16 @@
   {
     "group": "Chest",
     "color": 1,
-    "names": ["Incline", "Press", "PushUp"]
+    "names": [
+      "Incline push up",
+      "Flat bench press",
+      "Incline bench press",
+      "Decline bench press",
+      "Pushup",
+      "Cable crossover",
+      "Chest dip",
+      "Resistance band pullover"
+    ]
   },
   {
     "group": "Back",

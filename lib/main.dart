@@ -18,6 +18,8 @@ class MyApp extends HookConsumerWidget {
     appBarTheme:
         const AppBarTheme(backgroundColor: Color.fromARGB(255, 20, 20, 22)),
     primarySwatch: Colors.blue,
+    floatingActionButtonTheme:
+        const FloatingActionButtonThemeData(backgroundColor: Colors.black),
     brightness: Brightness.dark,
     iconTheme: const IconThemeData(size: 20, color: Colors.white),
     textTheme: const TextTheme(

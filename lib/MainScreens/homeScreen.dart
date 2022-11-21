@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gymap/MainScreens/exerciseScreen.dart';
+import 'package:gymap/SimpleScreens/groupListScreen.dart';
 import 'package:gymap/States/states.dart';
 
 import 'package:gymap/classes/exercise.dart';
@@ -188,13 +189,13 @@ class HomeScreen extends HookConsumerWidget {
     );
   }
 
-  Widget squareButton(nombre, int colorNum) {
+  Widget squareButton(Exercises ejercicioLocal, context) {
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
             const Color.fromARGB(255, 35, 38, 47),
-            Colors.accents[colorNum],
+            Colors.accents[ejercicioLocal.color],
           ],
           stops: const [1, 0],
           begin: FractionalOffset.topCenter,
@@ -205,7 +206,7 @@ class HomeScreen extends HookConsumerWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.accents[colorNum],
+            color: Colors.accents[ejercicioLocal.color],
             blurRadius: 0,
             offset: const Offset(0, 2),
           ),
@@ -215,10 +216,15 @@ class HomeScreen extends HookConsumerWidget {
       height: 160,
       child: MaterialButton(
         child: Text(
-          nombre,
+          ejercicioLocal.group,
           style: GoogleFonts.karla(fontSize: 28, fontWeight: FontWeight.bold),
         ),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: ((context) => GroupListScreen(
+                    ejercicio: ejercicioLocal,
+                  ))));
+        },
       ),
     );
   }
@@ -234,7 +240,8 @@ class HomeScreen extends HookConsumerWidget {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15),
             child:
-                squareButton(ejercicios[index].group, ejercicios[index].color),
+                //le pasamos al widget grafico todo el ejercicio que se hace
+                squareButton(ejercicios[index], context),
           );
         }),
       ),
