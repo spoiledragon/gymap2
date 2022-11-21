@@ -4,24 +4,28 @@
     "color": 1,
     "exercises": [
       {
-        "title": "Incline push up",
-        "info": "blablabla",
-        "image": "https://d.furaffinity.net/art/gb123456/1642484603/1642484603.gb123456_toprocess2.jpg"
+        "title": "Dragon Press",
+        "info": "Get ready to get fucked up by the heaviest weight in the world so please dont die",
+        "image": "https://d.furaffinity.net/art/gb123456/1642484603/1642484603.gb123456_toprocess2.jpg",
+        "videoUrl": "https://youtu.be/lRVJuPI5IXI?list=RDlRVJuPI5IXI"
       },
       {
         "title": "Flat bench press",
         "info": "blablabla",
-        "image": ""
+        "image": "",
+        "videoUrl": ""
       },
       {
         "title": "Resistance band pullover",
         "info": "blablabla",
-        "image": ""
+        "image": "",
+        "videoUrl": ""
       },
       {
         "title": "Decline Press",
         "info": "blablabla",
-        "image": ""
+        "image": "",
+        "videoUrl": ""
       }
     ]
   },
@@ -32,17 +36,20 @@
       {
         "title": "Row",
         "info": "blablabla",
-        "image": ""
+        "image": "",
+        "videoUrl": ""
       },
       {
         "title": "Rows1",
         "info": "blablabla",
-        "image": ""
+        "image": "",
+        "videoUrl": ""
       },
       {
         "title": "Rows3",
         "info": "blablabla",
-        "image": ""
+        "image": "",
+        "videoUrl": ""
       }
     ]
   },
@@ -53,17 +60,20 @@
       {
         "title": "Leg1",
         "info": "blablabla",
-        "image": ""
+        "image": "",
+        "videoUrl": ""
       },
       {
         "title": "Leg2",
         "info": "blablabla",
-        "image": ""
+        "image": "",
+        "videoUrl": ""
       },
       {
         "title": "Leg3",
         "info": "blablabla",
-        "image": ""
+        "image": "",
+        "videoUrl": ""
       }
     ]
   }

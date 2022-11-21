@@ -42,23 +42,22 @@ class Exercise {
     required this.title,
     required this.info,
     required this.image,
+    required this.videoUrl,
   });
 
   String title;
   String info;
   String image;
+  String videoUrl;
 
   factory Exercise.fromJson(Map<String, dynamic> json) => Exercise(
-        title: json["title"],
-        info: json["info"],
-        image: json["image"],
-      );
+      title: json["title"],
+      info: json["info"],
+      image: json["image"],
+      videoUrl: json["videoUrl"]);
 
-  Map<String, dynamic> toJson() => {
-        "title": title,
-        "info": info,
-        "image": image,
-      };
+  Map<String, dynamic> toJson() =>
+      {"title": title, "info": info, "image": image, "videoUrl": videoUrl};
 }
 
 class ExerciseNotifier extends StateNotifier<List<Exercises>> {
@@ -82,7 +81,7 @@ class ExerciseNotifier extends StateNotifier<List<Exercises>> {
 
 // Finalmente, estamos usando StateNotifierProvider para permitir que la
 // interfaz de usuario interactúe con nuestra clase TodosNotifier.
-final ExerciseProvider =
+final exercisesProvider =
     StateNotifierProvider<ExerciseNotifier, List<Exercises>>((ref) {
   return ExerciseNotifier();
 });

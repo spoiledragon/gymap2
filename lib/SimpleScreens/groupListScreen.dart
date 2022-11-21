@@ -1,9 +1,8 @@
 // ignore_for_file: file_names
 
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gymap/SimpleScreens/exerciseFromJsonScreen.dart';
 import 'package:gymap/classes/exercise.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
@@ -35,7 +34,11 @@ class GroupListScreen extends ConsumerWidget {
           //lo que hago aqui es crear un elemento simple de esta madre
           Exercise singleExercise = ejercicio.exercises[index];
           return InkWell(
-            onTap: () => log("Hola"),
+            onTap: () => Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => ExercisesFromJsonScreen(
+                exercise: singleExercise,
+              ),
+            )),
             child: SizedBox(
               height: 100,
               child: ListTile(

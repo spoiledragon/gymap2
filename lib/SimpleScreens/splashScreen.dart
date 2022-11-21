@@ -29,7 +29,7 @@ class SplashScreen extends HookConsumerWidget {
 
       for (var exe in data) {
         Exercises x = Exercises.fromJson(exe);
-        ref.read(ExerciseProvider.notifier).addExercise(x);
+        ref.read(exercisesProvider.notifier).addExercise(x);
         //print(x.group);
       }
     }

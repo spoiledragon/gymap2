@@ -21,7 +21,7 @@ class HomeScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     //Providers
     final String user = ref.read(userProvider.state).state.nickname;
-    final List<Exercises> ejercicios = ref.watch(ExerciseProvider);
+    final List<Exercises> ejercicios = ref.watch(exercisesProvider);
     //Funciones
 
     String greeting() {
