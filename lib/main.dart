@@ -14,7 +14,8 @@ void main() {
 
 class MyApp extends HookConsumerWidget {
   final darkTheme = ThemeData(
-    scaffoldBackgroundColor: const Color.fromARGB(255, 20, 20, 22),
+    //scaffoldBackgroundColor: const Color.fromARGB(255, 20, 20, 22),
+    scaffoldBackgroundColor: Colors.black,
     appBarTheme:
         const AppBarTheme(backgroundColor: Color.fromARGB(255, 20, 20, 22)),
     primarySwatch: Colors.blue,
@@ -22,6 +23,14 @@ class MyApp extends HookConsumerWidget {
         const FloatingActionButtonThemeData(backgroundColor: Colors.black),
     brightness: Brightness.dark,
     iconTheme: const IconThemeData(size: 20, color: Colors.white),
+    inputDecorationTheme: InputDecorationTheme(
+      filled: true,
+      fillColor: const Color.fromARGB(255, 37, 37, 37),
+      border: OutlineInputBorder(
+        borderSide: BorderSide.none,
+        borderRadius: BorderRadius.circular(20),
+      ),
+    ),
     textTheme: const TextTheme(
       subtitle1: TextStyle(
         color: Colors.white,

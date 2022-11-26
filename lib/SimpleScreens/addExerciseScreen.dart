@@ -28,25 +28,25 @@ class _AddExerciseScreenState extends ConsumerState<AddExerciseScreen> {
   //!Lista de dias
   final List<DayInWeek> _days = [
     DayInWeek(
-      "M",
+      "Monday",
     ),
     DayInWeek(
-      "T",
+      "Tuesday",
     ),
     DayInWeek(
-      "W",
+      "Wednesday",
     ),
     DayInWeek(
-      "T",
+      "Thursday",
     ),
     DayInWeek(
-      "F",
+      "Friday",
     ),
     DayInWeek(
-      "S",
+      "Saturday",
     ),
     DayInWeek(
-      "S",
+      "Sunday",
     ),
   ];
   //!Dias seleccionados
@@ -264,6 +264,7 @@ class _AddExerciseScreenState extends ConsumerState<AddExerciseScreen> {
               ref.read(nameAddProvider.state).state = value;
             },
             decoration: InputDecoration(
+                filled: false,
                 //Hint
                 hintText: "Name",
                 hintStyle: GoogleFonts.karla(
@@ -285,6 +286,8 @@ class _AddExerciseScreenState extends ConsumerState<AddExerciseScreen> {
             controller: weightEditingController,
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
+                filled: false,
+
                 //Hint
                 hintText: "Weight",
                 hintStyle: GoogleFonts.karla(
@@ -349,19 +352,22 @@ class _AddExerciseScreenState extends ConsumerState<AddExerciseScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Text(
-            "Sets",
-            style: GoogleFonts.karla(
-                color: const Color.fromARGB(255, 41, 41, 41),
-                fontSize: 14,
-                fontWeight: FontWeight.bold),
+        Expanded(
+          child: Center(
+            child: Text(
+              "Sets",
+              style: GoogleFonts.karla(
+                  color: const Color.fromARGB(255, 41, 41, 41),
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold),
+            ),
           ),
         ),
-        CupertinoButton(
-          child: Text("${sets}x"),
-          onPressed: () => _showDialog(setsPicker()),
+        Expanded(
+          child: CupertinoButton(
+            child: Text("${sets}x"),
+            onPressed: () => _showDialog(setsPicker()),
+          ),
         ),
       ],
     );
@@ -371,19 +377,22 @@ class _AddExerciseScreenState extends ConsumerState<AddExerciseScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Text(
-            "Reps",
-            style: GoogleFonts.karla(
-                color: const Color.fromARGB(255, 41, 41, 41),
-                fontSize: 14,
-                fontWeight: FontWeight.bold),
+        Expanded(
+          child: Center(
+            child: Text(
+              "Reps",
+              style: GoogleFonts.karla(
+                  color: const Color.fromARGB(255, 41, 41, 41),
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold),
+            ),
           ),
         ),
-        CupertinoButton(
-          child: Text("$reps Reps"),
-          onPressed: () => _showDialog(repsPicker()),
+        Expanded(
+          child: CupertinoButton(
+            child: Text("$reps Reps"),
+            onPressed: () => _showDialog(repsPicker()),
+          ),
         ),
       ],
     );
@@ -393,19 +402,22 @@ class _AddExerciseScreenState extends ConsumerState<AddExerciseScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Text(
-            "Group: ",
-            style: GoogleFonts.karla(
-                color: const Color.fromARGB(255, 41, 41, 41),
-                fontSize: 14,
-                fontWeight: FontWeight.bold),
+        Expanded(
+          child: Center(
+            child: Text(
+              "Group: ",
+              style: GoogleFonts.karla(
+                  color: const Color.fromARGB(255, 41, 41, 41),
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold),
+            ),
           ),
         ),
-        CupertinoButton(
-          child: Text(group),
-          onPressed: () => _showDialog(groupPicker()),
+        Expanded(
+          child: CupertinoButton(
+            child: Text(group),
+            onPressed: () => _showDialog(groupPicker()),
+          ),
         ),
       ],
     );

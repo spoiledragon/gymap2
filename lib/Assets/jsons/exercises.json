@@ -4,28 +4,34 @@
     "color": 1,
     "exercises": [
       {
-        "title": "Dragon Press",
-        "info": "Get ready to get fucked up by the heaviest weight in the world so please dont die",
-        "image": "https://d.furaffinity.net/art/gb123456/1642484603/1642484603.gb123456_toprocess2.jpg",
-        "videoUrl": "https://youtu.be/lRVJuPI5IXI?list=RDlRVJuPI5IXI"
+        "title": "normal press",
+        "info": "push the bar with the wight indicated,if is necessary let know someone to assist you ",
+        "image": "https://i.blogs.es/85d668/bench-press-1/1366_2000.webp",
+        "videoUrl": "https://www.youtube.com/watch?v=ICaZxO7RmKs"
       },
       {
-        "title": "Flat bench press",
-        "info": "blablabla",
-        "image": "",
-        "videoUrl": ""
+        "title": "push up",
+        "info": "push your body over a flat surface",
+        "image": "https://www.fitnesseducation.edu.au/wp-content/uploads/2020/10/Pushups.jpg",
+        "videoUrl": "https://www.youtube.com/watch?v=44JzAk3rvRM"
       },
       {
-        "title": "Resistance band pullover",
-        "info": "blablabla",
-        "image": "",
-        "videoUrl": ""
+        "title": "Incline push up",
+        "info": "just like push up, push you body over but over a high surface",
+        "image": "https://www.aleanlife.com/wp-content/uploads/2021/02/incline-push-up-1024x512.jpg?ezimgfmt=ngcb2/notWebP",
+        "videoUrl": "https://www.youtube.com/watch?v=Gvm5Q29UHbk"
       },
       {
-        "title": "Decline Press",
-        "info": "blablabla",
-        "image": "",
-        "videoUrl": ""
+        "title": "Cable crossover",
+        "info": "standing away from a set of high pulley cable machine or a resistance band",
+        "image": "https://image.boxrox.com/2021/10/cable-crossover.jpg",
+        "videoUrl": "https://www.youtube.com/watch?v=taI4XduLpTk"
+      },
+      {
+        "title": "Chest dip",
+        "info": "Straighten your elbows and press into your hands, lifting your body up so that it is in line with your hands",
+        "image": "https://www.hevyapp.com/wp-content/uploads/02511201-Chest-Dip_Chest.jpg",
+        "videoUrl": "https://www.youtube.com/watch?v=dX_nSOOJIsE"
       }
     ]
   },
@@ -34,22 +40,34 @@
     "color": 2,
     "exercises": [
       {
-        "title": "Row",
-        "info": "blablabla",
-        "image": "",
-        "videoUrl": ""
+        "title": "Kettlebell Swings",
+        "info": "Place a kettlebell a couple of feet in front of you",
+        "image": "https://kettlebellsworkouts.com/wp-content/uploads/2018/08/60_double_handed_swing.png",
+        "videoUrl": "https://www.youtube.com/watch?v=YSxHifyI6s8"
       },
       {
-        "title": "Rows1",
-        "info": "blablabla",
-        "image": "",
-        "videoUrl": ""
+        "title": "Barbell Deadlift",
+        "info": "Squat down and grasp a barbell with your hands roughly shoulder-width apart. Keep your chest up",
+        "image": "https://www.inspireusafoundation.org/wp-content/uploads/2022/06/barbell-deadlift-benefits.jpg",
+        "videoUrl": "https://www.youtube.com/watch?v=ZOtcE88yl94"
       },
       {
-        "title": "Rows3",
-        "info": "blablabla",
-        "image": "",
-        "videoUrl": ""
+        "title": "Pull-Up",
+        "info": "Grab the handles of the pull-up station with your palms facing away from you and your arms fully extended",
+        "image": "https://i0.wp.com/post.healthline.com/wp-content/uploads/2019/12/pull-up-pullup-gym-1296x728-header-1296x728.jpg?w=1155&h=1528",
+        "videoUrl": "https://www.youtube.com/watch?v=UT57qqp3zF8"
+      },
+      {
+        "title": "Dumbbell Single-arm Row",
+        "info": "Head to a flat bench and place your right hand against it under your shoulder, keeping your arm straight",
+        "image": "https://weighttraining.guide/wp-content/uploads/2016/10/bent-over-one-arm-dumbbell-row-resized.png?ezimgfmt=ng%3Awebp%2Fngcb4",
+        "videoUrl": "https://www.youtube.com/watch?v=xl1YiqQY2vA"
+      },
+      {
+        "title": "Renegade Row",
+        "info": "Get into a press-up position with your hands on the handles of two dumbbells",
+        "image": "https://cdn.mos.cms.futurecdn.net/tP8LBWSdrxanBVPoJbnefW-1200-80.jpg",
+        "videoUrl": "https://www.youtube.com/watch?v=LccyTxiUrhg"
       }
     ]
   },
@@ -58,22 +76,94 @@
     "color": 3,
     "exercises": [
       {
-        "title": "Leg1",
-        "info": "blablabla",
-        "image": "",
-        "videoUrl": ""
+        "title": "Front squat",
+        "info": "Load a barbell onto the front of your shoulders, hooking your fingers in an underhand grip on either side of your shoulders to support it",
+        "image": "https://static.strengthlevel.com/images/illustrations/front-squat-1000x1000.jpg",
+        "videoUrl": "https://www.youtube.com/watch?v=m4ytaCJZpl0"
       },
       {
-        "title": "Leg2",
-        "info": "blablabla",
-        "image": "",
-        "videoUrl": ""
+        "title": "Romanian deadlift",
+        "info": "Hold a barbell or one dumbbell in each hand. Keep your back straight and your gaze straight",
+        "image": "https://cdn.mos.cms.futurecdn.net/djQ6Skb6BSE56Xq6KQidx4-1200-80.jpg",
+        "videoUrl": "https://www.youtube.com/watch?v=2SHsk9AzdjA"
       },
       {
-        "title": "Leg3",
-        "info": "blablabla",
-        "image": "",
-        "videoUrl": ""
+        "title": "Walking lunges",
+        "info": "Start with your feet together. Hold a dumbbell in each hand if you want to perform a weighted",
+        "image": "https://www.5bestexercises.com/wp-content/uploads/2012/08/walking-lunge.jpg",
+        "videoUrl": "https://www.youtube.com/watch?v=L8fvypPrzzs"
+      },
+      {
+        "title": "Single-leg deadlift",
+        "info": "Hold a pair of dumbbells. Keep your back straight and your gaze straight throughout the movement.",
+        "image": "https://hips.hearstapps.com/hmg-prod/images/screen-shot-2019-05-09-at-4-52-51-pm-1557436377.jpg",
+        "videoUrl": "https://www.youtube.com/watch?v=b9bHy3ojQWA"
+      },
+      {
+        "title": "Lateral lunge",
+        "info": "Bend your left knee, sitting back into your left hip and keeping your torso upright. Keep your right leg as straight as possible",
+        "image": "https://www.spotebi.com/wp-content/uploads/2015/01/side-lunge-exercise-illustration.jpg",
+        "videoUrl": "https://www.youtube.com/watch?v=gwWv7aPcD88"
+      }
+    ]
+  },
+  {
+    "group": "Arm",
+    "color": 4,
+    "exercises": [
+      {
+        "title": "Bicep Curl",
+        "info": "Holding your palms forwards, bend your elbows and raise the dumbbell up towards your shoulder",
+        "image": "https://fitnessvolt.com/wp-content/uploads/2019/04/dumbbell-curl.jpg",
+        "videoUrl": "https://www.youtube.com/watch?v=ykJmrZ5v0Oo"
+      },
+      {
+        "title": "Plank To Push-Up",
+        "info": "Beginning in a high planking position (i.e. on your hands instead of your elbows), keep your arms directly beneath your shoulders and maintain core engagement.",
+        "image": "https://i1.wp.com/www.fitliferegime.com/wp-content/uploads/2021/08/Plank-to-Pushup.jpg?w=660&ssl=1",
+        "videoUrl": "https://www.youtube.com/watch?v=56vUOad6Irs"
+      },
+      {
+        "title": "Overhead Extension",
+        "info": "each your hands up, over, and behind your head, holding the dumbbell in a vertical position, keeping your wrists straight",
+        "image": "https://weighttraining.guide/wp-content/uploads/2017/08/seated-dumbbell-overhead-triceps-extension-resized.png?ezimgfmt=ng%3Awebp%2Fngcb4",
+        "videoUrl": "https://www.youtube.com/watch?v=YbX7Wd8jQ-Q"
+      },
+      {
+        "title": "Dumbbell Punch",
+        "info": "ift your arms and punch them straight out in front of you, alternating each and keeping the dumbbells at shoulder level as you do",
+        "image": "https://www.spotebi.com/wp-content/uploads/2015/04/cross-punch-exercise-illustration.jpg",
+        "videoUrl": "https://www.youtube.com/watch?v=hDc7MLhktsg"
+      }
+    ]
+  },
+  {
+    "group": "Shoulder",
+    "color": 5,
+    "exercises": [
+      {
+        "title": "Arnold Press",
+        "info": "In a seated position, kick dumbbells up to a traditional starting position and rotate your hands until your palms are facing towards you",
+        "image": "https://mundoentrenamiento.com/wp-content/uploads/2021/08/press-arnold.jpeg",
+        "videoUrl": "https://youtube.com/watch?v=3VZGReJoRAM"
+      },
+      {
+        "title": "Push Press",
+        "info": "Set up the same as you would for the barbell overhead press. Assume an upright torso and dip downward four to six inches, knees over toes",
+        "image": "https://static.strengthlevel.com/images/illustrations/push-press-4-1000x1000.jpg",
+        "videoUrl": "https://youtube.com/watch?v=iaBVSJm78ko"
+      },
+      {
+        "title": "Wide-Grip Seated Row",
+        "info": "Set up like you would for your regular seated row but use a straight bar attachment. Take an overhand wide grip until your upper arms are about 45 degrees",
+        "image": "https://weighttraining.guide/wp-content/uploads/2016/10/Cable-Seated-Wide-grip-Row-resized.png",
+        "videoUrl": "https://youtube.com/watch?v=BvtD3znOqao"
+      },
+      {
+        "title": "Incline Y Raise",
+        "info": "The incline Y raise can help promote shoulder health, especially for athletes who do a lot of overhead work",
+        "image": "https://static.strengthlevel.com/images/illustrations/dumbbell-incline-y-raise-1000x1000.jpg",
+        "videoUrl": "https://www.youtube.com/watch?v=Wz1C8NzWg5A"
       }
     ]
   }

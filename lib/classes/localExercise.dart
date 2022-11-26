@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -87,6 +88,48 @@ class LocalExerciseNotifier extends StateNotifier<List<LocalExercise>> {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString('Exercises', jsonEncode(state));
   }
+
+  List<LocalExercise> todayExercises(String fetchDay) {
+    List<LocalExercise> todayExercises = [];
+    //var today = DateFormat('EEEE').format(DateTime.now());
+
+    //creamos lista vacia de ejercicios
+    //recorremos los ejercicios en el estado
+    for (final ejercicio in state) {
+      //creamos la vairable de dias a partir del arreglo json del ejercicio
+      final dias = ejercicio.days;
+      //comprobamos si corresponde con el dia de hoy
+      for (String dia in dias) {
+        if (dia == fetchDay) {
+          log(dia);
+          log(ejercicio.name);
+          todayExercises.add(ejercicio);
+        }
+      }
+    }
+    return todayExercises;
+  }
+
+  List<LocalExercise> onSearch(String search) {
+    List<LocalExercise> todayExercises = [];
+    //var today = DateFormat('EEEE').format(DateTime.now());
+
+    //creamos lista vacia de ejercicios
+    //recorremos los ejercicios en el estado
+    for (final ejercicio in state) {
+      //creamos la vairable de dias a partir del arreglo json del ejercicio
+      final dias = ejercicio.days;
+      //comprobamos si corresponde con el dia de hoy
+      for (String dia in dias) {
+        if (dia == search) {
+          log(dia);
+          log(ejercicio.name);
+          todayExercises.add(ejercicio);
+        }
+      }
+    }
+    return todayExercises;
+  }
 }
 
 // Finalmente, estamos usando StateNotifierProvider para permitir que la
@@ -95,8 +138,15 @@ final localExerciseProvider =
     StateNotifierProvider<LocalExerciseNotifier, List<LocalExercise>>((ref) {
   return LocalExerciseNotifier();
 });
-// interfaz de usuario interactúe con nuestra clase TodosNotifier.
-final localTodayExerciseProvider =
-    StateNotifierProvider<LocalExerciseNotifier, List<LocalExercise>>((ref) {
-  return LocalExerciseNotifier();
-});
+//Provider que me regresa solo los ejercicios del dia actual
+
+final searchProvider = StateProvider<String>(((ref) => ""));
+final filterListProvider = StateProvider<List<LocalExercise>>(((ref) {
+  final lista = ref.watch(localExerciseProvider);
+  final searchString = ref.watch(searchProvider);
+
+  return lista
+      .where((element) =>
+          element.name.toLowerCase().contains(searchString.toLowerCase()))
+      .toList();
+}));

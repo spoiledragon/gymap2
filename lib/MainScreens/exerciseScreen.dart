@@ -10,7 +10,7 @@ import 'package:gymap/SimpleScreens/customExerciseScreen.dart';
 import 'package:gymap/States/states.dart';
 import 'package:gymap/classes/localExercise.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:ionicons/ionicons.dart';
+
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 class ExercisePage extends HookConsumerWidget {
@@ -20,25 +20,16 @@ class ExercisePage extends HookConsumerWidget {
     //Provider
     final String profilePicture =
         ref.read(userProvider.state).state.profilePicture;
-    final ejercicios = ref.watch(localExerciseProvider);
-    /*
-    final LocalExercise tester = LocalExercise(
-        name: "Huge Dragon Dick",
-        group: "Dick",
-        type: "Dumbell",
-        weight: 99,
-        sets: 2,
-        reps: 2,
-        color: 1,
-        days: ["L", "M"]);
-    */
+    List<LocalExercise> diplayList = ref.watch(filterListProvider);
 
     //!Funciones [Piolas]
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.deepPurple,
         child: const Icon(
-          Ionicons.add,
+          Icons.add,
+          size: 40,
           color: Colors.white,
         ),
         onPressed: () {
@@ -81,7 +72,7 @@ class ExercisePage extends HookConsumerWidget {
             delegate:
                 SliverChildBuilderDelegate((BuildContext context, int index) {
               //Generamos el ejercicio del index
-              final ejercicio = ejercicios[index];
+              final ejercicio = diplayList[index];
               return Container(
                 //generamos un margin y padding
                 margin: const EdgeInsets.all(8),
@@ -103,7 +94,7 @@ class ExercisePage extends HookConsumerWidget {
                 ),
               );
               //que se repita hasta que sea igual a la lista de ejercicios que se saca del provider
-            }, childCount: ejercicios.length),
+            }, childCount: diplayList.length),
           )
         ],
       ),

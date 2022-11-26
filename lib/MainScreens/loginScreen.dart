@@ -1,6 +1,7 @@
 // ignore_for_file: file_names, use_build_context_synchronously
 
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +9,9 @@ import 'package:flutter/services.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gymap/Extras/CustomClipper.dart';
-import 'package:gymap/MainScreens/RegisterScreen.dart';
 import 'package:gymap/MainScreens/homeScreen.dart';
+import 'package:gymap/SimpleScreens/RegisterScreens/indexedScreens.dart';
+import 'package:gymap/States/states.dart';
 import 'package:gymap/classes/exercise.dart';
 import 'package:gymap/classes/localExercise.dart';
 import 'package:gymap/classes/user.dart';
@@ -23,26 +25,35 @@ final obscureTextProvider = StateProvider<bool>((ref) {
 });
 
 class LoginPage extends HookConsumerWidget {
-  const LoginPage({super.key});
+  final _formKey = GlobalKey<FormState>();
+  LoginPage({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     //Controladores
     final userNameController = TextEditingController();
     final passwordController = TextEditingController();
 
-    //!Por implementar
-
+    //FUNCION PARA TRAER TODOS LOS EJERCICIOS A LOS JSON Y GUARDALOS EN EL PROVIDER
     Future<void> readJson() async {
       final String response =
           await rootBundle.loadString('lib/Assets/jsons/exercises.json');
 
       final data = await json.decode(response);
-
+      //POR CADA EJERCICIO LO GUARDAMOS
       for (var exe in data) {
         Exercises x = Exercises.fromJson(exe);
         ref.read(exercisesProvider.notifier).addExercise(x);
         //print(x.group);
       }
+    }
+
+    void showToast(BuildContext context, mensaje) {
+      final scaffold = ScaffoldMessenger.of(context);
+      scaffold.showSnackBar(
+        SnackBar(
+          content: Text(mensaje),
+        ),
+      );
     }
 
     //!Funcion que trae de los shared preferences
@@ -60,63 +71,45 @@ class LoginPage extends HookConsumerWidget {
       }
     }
 
+    //Funcion para comprobar la validacion de los datos
     void isValid() async {
+      //llamamos a las prefs de shared preferences
       final prefs = await SharedPreferences.getInstance();
-      final jsondata = jsonDecode(prefs.getString('user') ?? "");
-
-      final User user = User.fromJson(jsondata);
-
-      if (userNameController.text.isNotEmpty &&
-          passwordController.text.isNotEmpty) {
-        if (userNameController.text == user.nickname &&
-            passwordController.text == user.password) {
-          //!SI ES VERDAD QUE ES CORRECTO LOS DATOS
-          readJson();
-          getExercisesFromPreferences();
-
-          //MANDAMOS A GUARDAR QUE SI ESTA LOGEADO
-          await prefs.setBool('isLoged', true);
-          //EMPUJAMOS LA MATERIAL PAGE CON EL DATO DEL USERNAME CONTROLLER PORQUE SI
-          Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => const HomeScreen()));
-        }
+      //Comprobaremos si de verdad hay alguien Registrado
+      //TODO
+      final isLoged = prefs.getBool("isLoged") ?? false;
+      if (!isLoged) {
+        showToast(context, "No hay Usuarios registrados");
+        return;
       }
-    }
 
-    //TextBox del usuario
-    Widget userTextBox() {
-      return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: TextField(
-            controller: userNameController,
-            textAlignVertical: TextAlignVertical.center,
-            decoration: const InputDecoration(
-                label: Text("User"),
-                hintText: "User",
-                prefix: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: Icon(Icons.person),
-                )),
-          ));
-    }
+      if (!_formKey.currentState!.validate()) {
+        showToast(context, "Hmmm...");
+        return;
+      }
 
-    Widget passwordTextBox() {
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: TextField(
-          controller: passwordController,
-          textAlignVertical: TextAlignVertical.center,
-          decoration: const InputDecoration(
-            alignLabelWithHint: true,
-            label: Text("Password"),
-            hintText: "Password",
-            prefix: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Icon(Icons.lock),
-            ),
-          ),
-        ),
-      );
+      //traemos el objeto user si es que lo encuentra, si no , me trae un string vacio
+      final jsondata = jsonDecode(prefs.getString('user') ?? "");
+      //guardamos el usuario desde el objeto json
+      final User user = User.fromJson(jsondata);
+      //si no estan vacio los textinput se lo decimos
+
+      if (userNameController.text == user.nickname &&
+          passwordController.text == user.password) {
+        //!SI ES VERDAD QUE ES CORRECTO, Traemos todos los ejercicios del json y los que ya esten guardados
+        readJson();
+        //como solo se logea la primera vez pues ni para que traigo datos incesesarios
+        //getExercisesFromPreferences();
+
+        //MANDAMOS A GUARDAR QUE SI ESTA LOGEADO para no tener que pasar por esta pagina jamas
+        await prefs.setBool('isLoged', true);
+        ref.read(userProvider.state).state = user;
+        //EMPUJAMOS LA MATERIAL PAGE CON EL DATO DEL USERNAME CONTROLLER PORQUE SI
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => const HomeScreen()));
+      } else {
+        showToast(context, "Datos Incorrectos");
+      }
     }
 
     Widget boton() {
@@ -155,6 +148,13 @@ class LoginPage extends HookConsumerWidget {
       );
     }
 
+    void guestLog(context) {
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => const HomeScreen()));
+      ref.read(userProvider.state).state.nickname = "Random UwU";
+      readJson();
+    }
+
 //aqui va la pagina
     return SafeArea(
       child: Scaffold(
@@ -167,43 +167,101 @@ class LoginPage extends HookConsumerWidget {
             children: <Widget>[
               //Columna para contener el banner principal
               banner(),
-              const SizedBox(
-                height: 40,
-              ),
+              const SizedBox(height: 40),
               Center(child: loginText()),
-              const SizedBox(
-                height: 55,
-              ),
-              userTextBox(),
-              const SizedBox(
-                height: 40,
-              ),
-              passwordTextBox(),
-              const SizedBox(
-                height: 50,
-              ),
+              const SizedBox(height: 40),
+              inputs(userNameController, passwordController),
+              const SizedBox(height: 50),
               Center(child: boton()),
-              const SizedBox(
-                height: 15,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("Not a memeber ?",
-                      style: GoogleFonts.karla(fontSize: 14)),
-                  CupertinoButton(
-                    child: Text("Register",
-                        style: GoogleFonts.karla(fontSize: 14)),
-                    onPressed: () => Navigator.of(context).push(
-                        MaterialPageRoute(
-                            builder: (context) => RegisterScreen())),
-                  )
-                ],
+              const SizedBox(height: 15),
+              registerLabel(context),
+              Center(
+                child: CupertinoButton(
+                  child: const Text("Not log and be Guest"),
+                  onPressed: () {
+                    guestLog(context);
+                  },
+                ),
               )
             ],
           ),
         ),
       ),
     );
+  }
+
+  Row registerLabel(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text("Not a memeber ?", style: GoogleFonts.karla(fontSize: 14)),
+        CupertinoButton(
+          child: Text("Register", style: GoogleFonts.karla(fontSize: 14)),
+          onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => const IndexedRegisterScreens())),
+        )
+      ],
+    );
+  }
+
+  //inputs
+  Form inputs(TextEditingController userNameController,
+      TextEditingController passwordController) {
+    return Form(
+        key: _formKey,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30),
+          child: Column(
+            children: [
+              TextFormField(
+                controller: userNameController,
+                textAlignVertical: TextAlignVertical.center,
+                textInputAction: TextInputAction.next,
+                decoration: const InputDecoration(
+                  label: Text("User"),
+                  hintText: "User",
+                  prefix: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: Icon(Icons.person),
+                  ),
+                ),
+                validator: (value) {
+                  if (value!.isNotEmpty && value.length > 2) {
+                    return null;
+                  } else if (value.length < 3 && value.isEmpty) {
+                    return "... Really?";
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(
+                height: 40,
+              ),
+              TextFormField(
+                controller: passwordController,
+                textAlignVertical: TextAlignVertical.center,
+                textInputAction: TextInputAction.next,
+                obscureText: true,
+                decoration: const InputDecoration(
+                  alignLabelWithHint: true,
+                  label: Text("Password"),
+                  hintText: "Password",
+                  prefix: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: Icon(Icons.lock),
+                  ),
+                ),
+                validator: (value) {
+                  if (value!.isNotEmpty && value.length > 2) {
+                    return null;
+                  } else if (value.length < 3 && value.isEmpty) {
+                    return "Pls";
+                  }
+                  return null;
+                },
+              )
+            ],
+          ),
+        ));
   }
 }

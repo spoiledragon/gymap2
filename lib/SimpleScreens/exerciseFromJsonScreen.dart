@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gymap/Extras/clock.dart';
 import 'package:gymap/classes/exercise.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';

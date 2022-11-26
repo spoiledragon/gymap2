@@ -95,80 +95,96 @@ class HomeScreen extends HookConsumerWidget {
 
     return Scaffold(
       //APPBAR
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(
-            MediaQuery.of(context).size.height / 6), // Set this height
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            //IMAGEN
-            Image.asset('lib/Assets/images/banner.gif', fit: BoxFit.cover),
-            ClipRRect(
-              //FILTRO
-              // Clip it cleanly.
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                child: Container(
-                  width: double.infinity,
-                  color: Colors.grey.withOpacity(0.1),
-                  alignment: Alignment.center,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: Text(
-                            'Good ${greeting()}',
-                            style: const TextStyle(
-                                color: Color.fromARGB(255, 152, 152, 152),
-                                fontSize: 28,
-                                fontWeight: FontWeight.w900),
-                          ),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: Text(
-                            user.toUpperCase(),
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 32,
-                                letterSpacing: 2,
-                                fontWeight: FontWeight.w900),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-// !WIDGETS DEBAJO DEL APPBAR
+      appBar: customAppBar(context, greeting, user),
+      // !WIDGETS DEBAJO DEL APPBAR
       body: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
         const SizedBox(
           height: 15,
         ),
-        textToShow("My Exercises"),
+        //!Si no estas logeado entonces no puedes elegir ejercicios para Agregar
+        if (ref.read(userProvider.state).state.nickname != "Random UwU")
+          myExercisesWidget(goToExercisesBtn),
+
         const SizedBox(
-          height: 15,
+          height: 20,
         ),
-        goToExercisesBtn(),
-        const SizedBox(
-          height: 30,
-        ),
-        textToShow("Other Exercises"),
+        textToShow("Exercises"),
         const SizedBox(
           height: 30,
         ),
         mainExercises(ejercicios),
       ]),
+    );
+  }
+
+  PreferredSize customAppBar(
+      BuildContext context, String Function() greeting, String user) {
+    return PreferredSize(
+      preferredSize: Size.fromHeight(
+          MediaQuery.of(context).size.height / 6), // Set this height
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          //IMAGEN
+          Image.asset('lib/Assets/images/banner.gif', fit: BoxFit.cover),
+          ClipRRect(
+            //FILTRO
+            // Clip it cleanly.
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+              child: Container(
+                width: double.infinity,
+                color: Colors.grey.withOpacity(0.1),
+                alignment: Alignment.center,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Text(
+                          'Good ${greeting()}',
+                          style: const TextStyle(
+                              color: Color.fromARGB(255, 152, 152, 152),
+                              fontSize: 28,
+                              fontWeight: FontWeight.w900),
+                        ),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Text(
+                          user.toUpperCase(),
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 32,
+                              letterSpacing: 2,
+                              fontWeight: FontWeight.w900),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Column myExercisesWidget(Widget Function() goToExercisesBtn) {
+    return Column(
+      children: [
+        textToShow("My Exercises"),
+        const SizedBox(
+          height: 15,
+        ),
+        goToExercisesBtn(),
+      ],
     );
   }
 

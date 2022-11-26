@@ -54,7 +54,7 @@ class SplashScreen extends HookConsumerWidget {
       final isLoged = prefs.getBool("isLoged") ?? false;
       if (!isLoged) {
         Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => const LoginPage()));
+            MaterialPageRoute(builder: (context) => LoginPage()));
       } else {
         //EN EL CASO DE QUE SI ESTE LOGEADO ENTRAMOS A ESTE CASO
         //LLAMAMOS A LAS PREFS COMO SIEMPRE

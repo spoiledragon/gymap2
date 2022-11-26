@@ -1,21 +1,21 @@
-import 'package:flutter/material.dart';
+import 'dart:developer';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class Gender {
+class Selecter {
   String name;
-  IconData icon;
   bool isSelected;
 
-  Gender(this.name, this.icon, this.isSelected);
+  Selecter(this.name, this.isSelected);
 }
 
-class GenderNotifier extends StateNotifier<List<Gender>> {
+class SelecterNotifier extends StateNotifier<List<Selecter>> {
   // Inicializamos la lista de `todos` como una lista vacía
 
-  GenderNotifier()
+  SelecterNotifier()
       : super([
-          Gender("Female", Icons.female, false),
-          Gender("Male", Icons.male, false)
+          Selecter("PowerLifter", false),
+          Selecter("Novice", false),
+          Selecter("Advance", false)
         ]);
   //ExerciseNotifier() : super([]);
 
@@ -24,12 +24,17 @@ class GenderNotifier extends StateNotifier<List<Gender>> {
       gender.isSelected = false;
     }
     state[index].isSelected = true;
+    log(state[index].name);
+  }
+
+  String getName(index) {
+    return state[index].name;
   }
 }
 
 // Finalmente, estamos usando StateNotifierProvider para permitir que la
 // interfaz de usuario interactúe con nuestra clase TodosNotifier.
-final genderProvider =
-    StateNotifierProvider<GenderNotifier, List<Gender>>((ref) {
-  return GenderNotifier();
+final selecterProvider =
+    StateNotifierProvider<SelecterNotifier, List<Selecter>>((ref) {
+  return SelecterNotifier();
 });

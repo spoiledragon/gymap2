@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:gymap/classes/user.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -19,9 +20,13 @@ final selectedProvider = StateProvider<List<bool>>(
 );
 
 //!Register Page
+final userRegisterProvider = StateProvider<String>((ref) => "");
+final passwordRegisterProvider = StateProvider<String>((ref) => "");
+final mailRegisterProvider = StateProvider<String>((ref) => "");
 final ageRegisterProvider = StateProvider<int>((ref) => 25);
-final weightRegisterProvider = StateProvider<int>((ref) => 100);
-final genderRegisterProvider = StateProvider<String>((ref) => "Male");
+final weightRegisterProvider = StateProvider<int>((ref) => 0);
+final genderRegisterProvider = StateProvider<String>((ref) => "Female");
+final familyegisterProvider = StateProvider<String>((ref) => "Novice");
 
 //!! USER
 final userProvider = StateProvider<User>((ref) {
@@ -41,3 +46,8 @@ final timeGlobalProvider = StateProvider<int>((ref) {
   return 120;
 });
 final maingymBroProvider = StateProvider<String>((ref) => "");
+//! Para el index del registro
+final controllerRegisterProvider =
+    StateProvider<PageController>(((ref) => PageController()));
+final controller2RegisterProvider =
+    StateProvider<PageController>(((ref) => PageController()));
