@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gymap/classes/localExercise.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:ionicons/ionicons.dart';
 
 class ExerciseWidget extends HookConsumerWidget {
   final LocalExercise exercise;
@@ -68,51 +69,42 @@ class ExerciseWidget extends HookConsumerWidget {
                 child: Center(
                   child: Text(exercise.name,
                       style: GoogleFonts.karla(
-                          fontSize: 28, fontWeight: FontWeight.bold)),
+                          fontSize: 28, fontWeight: FontWeight.w500)),
                 ),
               ),
               const SizedBox(
                 height: 10,
               ),
-              //! Primera Columna
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: Text(exercise.type,
-                        style: GoogleFonts.karla(
-                            fontSize: 16, fontWeight: FontWeight.bold)),
-                  ),
-                  Expanded(
-                    child: Text("${exercise.sets}x Sets",
-                        style: GoogleFonts.karla(
-                            fontSize: 16, fontWeight: FontWeight.bold)),
-                  )
-                ],
-              ),
-              //? Sized Box
-              const SizedBox(
-                height: 10,
-              ),
-              //!Segunda Columna
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Expanded(
-                    child: Text("${exercise.weight} Lb",
-                        style: GoogleFonts.karla(
-                            fontSize: 16, fontWeight: FontWeight.bold)),
-                  ),
-                  Expanded(
-                    child: Text("${exercise.reps} Reps",
-                        style: GoogleFonts.karla(
-                            fontSize: 16, fontWeight: FontWeight.bold)),
-                  )
-                ],
-              )
+              customTable("Sets", exercise.sets.toString()),
+              customTable("Reps", exercise.reps.toString()),
+              customTable("Lb", exercise.weight.toString()),
             ],
           ),
         )
+      ]),
+    );
+  }
+
+  Padding customTable(string1, string2) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: Row(children: [
+        Expanded(
+          child: Center(
+              child: Text(
+            string1,
+            style: GoogleFonts.karla(fontSize: 20),
+          )),
+        ),
+        const Icon(Ionicons.arrow_forward_sharp),
+        Expanded(
+          child: Center(
+            child: Text(
+              string2,
+              style: GoogleFonts.karla(fontSize: 20),
+            ),
+          ),
+        ),
       ]),
     );
   }

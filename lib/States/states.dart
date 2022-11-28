@@ -11,9 +11,9 @@ final isDarkMode = StateProvider((ref) => true);
 final nameAddProvider = StateProvider((ref) => "");
 final typeAddProvider = StateProvider((ref) => "");
 final groupAddProvider = StateProvider((ref) => "Chest");
-final weightAddProvider = StateProvider<int>((ref) => 0);
-final setsAddProvider = StateProvider<int>((ref) => 0);
-final repsAddProvider = StateProvider<int>((ref) => 0);
+final weightAddProvider = StateProvider<int>((ref) => 1);
+final setsAddProvider = StateProvider<int>((ref) => 1);
+final repsAddProvider = StateProvider<int>((ref) => 1);
 final colorAddProvider = StateProvider<int>((ref) => 1);
 final selectedProvider = StateProvider<List<bool>>(
   (ref) => List.filled(3, false),
@@ -24,9 +24,9 @@ final userRegisterProvider = StateProvider<String>((ref) => "");
 final passwordRegisterProvider = StateProvider<String>((ref) => "");
 final mailRegisterProvider = StateProvider<String>((ref) => "");
 final ageRegisterProvider = StateProvider<int>((ref) => 25);
-final weightRegisterProvider = StateProvider<int>((ref) => 0);
+final weightRegisterProvider = StateProvider<int>((ref) => 50);
 final genderRegisterProvider = StateProvider<String>((ref) => "Female");
-final familyegisterProvider = StateProvider<String>((ref) => "Novice");
+final familyegisterProvider = StateProvider<String>((ref) => "");
 
 //!! USER
 final userProvider = StateProvider<User>((ref) {
@@ -50,4 +50,7 @@ final maingymBroProvider = StateProvider<String>((ref) => "");
 final controllerRegisterProvider =
     StateProvider<PageController>(((ref) => PageController()));
 final controller2RegisterProvider =
+    StateProvider<PageController>(((ref) => PageController()));
+//!Para agregar ejercicios
+final controllerAddProvider =
     StateProvider<PageController>(((ref) => PageController()));

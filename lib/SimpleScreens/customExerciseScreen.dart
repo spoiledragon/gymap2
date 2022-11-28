@@ -28,11 +28,10 @@ class SingleExerciseScreen extends ConsumerWidget {
       body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            customTable("Group", exercise.group),
-            customTable("Type", exercise.type),
-            customTable("Sets", exercise.sets.toString()),
-            customTable("Weight", exercise.weight.toString()),
-            customTable("Reps", exercise.reps.toString()),
+            customTable("Group", exercise.group, 1),
+            customTable("Sets", exercise.sets.toString(), 2),
+            customTable("Weight", exercise.weight.toString(), 3),
+            customTable("Reps", exercise.reps.toString(), 4),
             Clock(
               color: exercise.color,
             ),
@@ -40,19 +39,19 @@ class SingleExerciseScreen extends ConsumerWidget {
     );
   }
 
-  Padding customTable(string1, string2) {
+  Padding customTable(string1, string2, color) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
         height: 40,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
-            color: Colors.black,
-            boxShadow: const [
+            color: Colors.primaries[color],
+            boxShadow: [
               BoxShadow(
-                color: Color.fromARGB(31, 194, 194, 194),
+                color: Colors.accents[color],
                 blurRadius: 3,
-                offset: Offset(0, 1),
+                offset: const Offset(0, 1),
               ),
             ]),
         child: Row(children: [

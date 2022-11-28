@@ -37,6 +37,8 @@ class GroupListScreen extends ConsumerWidget {
             onTap: () => Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => ExercisesFromJsonScreen(
                 exercise: singleExercise,
+                group: ejercicio.group,
+                color: ejercicio.color,
               ),
             )),
             child: SizedBox(

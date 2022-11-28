@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:gymap/classes/localExercise.dart';
 
@@ -26,9 +28,7 @@ class SearchExerciseDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    
-
-    return Text("BuildResults");
+    return const Text("BuildResults");
   }
 
   @override
@@ -36,7 +36,7 @@ class SearchExerciseDelegate extends SearchDelegate {
     return ListTile(
       title: GradientText(
         "Suggestions",
-        colors: [Colors.red, Colors.blue],
+        colors: const [Colors.red, Colors.blue],
       ),
     );
   }

@@ -49,9 +49,9 @@ class FirstScreen extends ConsumerWidget {
                   ),
                   textInputAction: TextInputAction.next,
                   validator: (value) {
-                    if (value!.isNotEmpty && value.length > 2) {
+                    if (value!.isNotEmpty && value.length >4) {
                       return null;
-                    } else if (value.length < 3 && value.isNotEmpty) {
+                    } else if (value.length < 4 && value.isNotEmpty) {
                       return "No way this is your name";
                     } else {
                       return "Give us a UserName!";

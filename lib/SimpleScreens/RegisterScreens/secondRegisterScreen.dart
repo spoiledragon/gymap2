@@ -27,6 +27,8 @@ class _SecondScreenState extends ConsumerState<SecondScreen> {
         ref.read(genderRegisterProvider.state).state = "Female";
       } else if (value == 1) {
         ref.read(genderRegisterProvider.state).state = "Male";
+      } else if (value == 2) {
+        ref.read(genderRegisterProvider.state).state = "Wallmart Bag";
       }
 
       log(value.toString());
@@ -68,7 +70,7 @@ class _SecondScreenState extends ConsumerState<SecondScreen> {
                 ),
               ));
     }
-
+  //!ESTO ES LO QUE SE REGRESA
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -100,10 +102,14 @@ class _SecondScreenState extends ConsumerState<SecondScreen> {
   }
 
   MaterialButton botonWidget(
-      void showToast(BuildContext context, dynamic mensaje),
+      void Function(BuildContext context, dynamic mensaje) showToast,
       BuildContext context) {
     return MaterialButton(
       onPressed: () {
+        if (ref.read(familyegisterProvider.state).state == "") {
+          showToast(context, "Select a Family bro");
+          return;
+        }
         if (ref.read(weightRegisterProvider.state).state <= 40) {
           showToast(context, "Ok?");
         }
@@ -121,7 +127,7 @@ class _SecondScreenState extends ConsumerState<SecondScreen> {
   }
 
   SizedBox genderSelecterWidget(BuildContext context, PageController controller,
-      Null onGenderChange(dynamic value), String genderText) {
+      Null Function(dynamic value) onGenderChange, String genderText) {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       height: 300,
@@ -131,13 +137,14 @@ class _SecondScreenState extends ConsumerState<SecondScreen> {
             children: [
               femaleContainer(),
               maleContainer(),
+              bagContainer(),
             ],
             onPageChanged: (value) => onGenderChange(value)),
         Container(
           alignment: const Alignment(0, 0.9),
           child: SmoothPageIndicator(
             controller: controller,
-            count: 2,
+            count: 3,
             effect: const WormEffect(
               activeDotColor: Colors.deepPurple,
               dotHeight: 16,
@@ -160,7 +167,7 @@ class _SecondScreenState extends ConsumerState<SecondScreen> {
   Row weightWidget(void Function(Widget child) showDialog, int weightText) {
     return Row(
       children: [
-        const Expanded(child: Center(child: Text("Weight : "))),
+        const Expanded(child: Center(child: Text("Weight (Kg): "))),
         Expanded(
           flex: 1,
           child: OutlinedButton(
@@ -220,6 +227,16 @@ class _SecondScreenState extends ConsumerState<SecondScreen> {
     );
   }
 
+  Container bagContainer() {
+    return Container(
+      color: Colors.black,
+      child: const Icon(
+        Ionicons.bag,
+        size: 100,
+      ),
+    );
+  }
+
   Widget weightPicker() {
     return CupertinoPicker(
       magnification: 1.22,
@@ -229,12 +246,12 @@ class _SecondScreenState extends ConsumerState<SecondScreen> {
       looping: true,
       // This is called when selected item is changed.
       onSelectedItemChanged: (int selectedItem) {
-        ref.read(weightRegisterProvider.state).state = selectedItem;
+        ref.read(weightRegisterProvider.state).state = selectedItem + 40;
       },
       children: List<Widget>.generate(200, (int index) {
         return Center(
           child: Text(
-            index.toString(),
+            (40 + index).toString(),
             style: GoogleFonts.karla(color: Colors.black),
           ),
         );

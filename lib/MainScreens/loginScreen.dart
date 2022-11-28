@@ -1,7 +1,6 @@
 // ignore_for_file: file_names, use_build_context_synchronously
 
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +12,6 @@ import 'package:gymap/MainScreens/homeScreen.dart';
 import 'package:gymap/SimpleScreens/RegisterScreens/indexedScreens.dart';
 import 'package:gymap/States/states.dart';
 import 'package:gymap/classes/exercise.dart';
-import 'package:gymap/classes/localExercise.dart';
 import 'package:gymap/classes/user.dart';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -57,26 +55,13 @@ class LoginPage extends HookConsumerWidget {
     }
 
     //!Funcion que trae de los shared preferences
-    void getExercisesFromPreferences() async {
-      //definimos los prefs
-      final prefs = await SharedPreferences.getInstance();
-      //creamos una lista dinamica condeando el en el jsondata
-      final List<dynamic> jsonData =
-          jsonDecode(prefs.getString('Exercises') ?? '[]');
-      //ya aqui tenemos los datos para ser almacenados en donde quieras
-      for (int i = 0; i < jsonData.length; i++) {
-        var exe = jsonData[i];
-        LocalExercise x = LocalExercise.fromJson(exe);
-        ref.read(localExerciseProvider.notifier).addExercise(x);
-      }
-    }
 
     //Funcion para comprobar la validacion de los datos
     void isValid() async {
       //llamamos a las prefs de shared preferences
       final prefs = await SharedPreferences.getInstance();
       //Comprobaremos si de verdad hay alguien Registrado
-      //TODO
+
       final isLoged = prefs.getBool("isLoged") ?? false;
       if (!isLoged) {
         showToast(context, "No hay Usuarios registrados");

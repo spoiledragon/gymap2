@@ -1,6 +1,7 @@
+// ignore_for_file: file_names
+
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -49,6 +50,7 @@ class _ThirdScreenState extends ConsumerState<ThirdScreen> {
     super.initState();
   }
 
+  @override
   Widget build(BuildContext context) {
     return Center(
         child: GradientText(

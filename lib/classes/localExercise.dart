@@ -16,7 +16,6 @@ class LocalExercise {
   LocalExercise(
       {required this.name,
       required this.group,
-      required this.type,
       required this.weight,
       required this.sets,
       required this.reps,
@@ -25,7 +24,7 @@ class LocalExercise {
 
   String name;
   String group;
-  String type;
+
   int weight;
   int sets;
   int reps;
@@ -35,7 +34,6 @@ class LocalExercise {
   factory LocalExercise.fromJson(Map<String, dynamic> json) => LocalExercise(
         name: json["name"],
         group: json["group"],
-        type: json["type"],
         weight: json["weight"],
         sets: json["sets"],
         reps: json["reps"],
@@ -46,7 +44,6 @@ class LocalExercise {
   Map<String, dynamic> toJson() => {
         "name": name,
         "group": group,
-        "type": type,
         "weight": weight,
         "sets": sets,
         "reps": reps,
@@ -61,15 +58,22 @@ class LocalExerciseNotifier extends StateNotifier<List<LocalExercise>> {
   LocalExerciseNotifier() : super([]);
   //ExerciseNotifier() : super([]);
   // Permitamos que la interfaz de usuario agregue todos.
-  void addExercise(LocalExercise ejercicio) {
+  bool addExercise(LocalExercise ejercicio) {
     // Ya que nuestro estado es inmutable, no podemos hacer `state.add(todo)`.
     // En su lugar, debemos crear una nueva lista de todos que contenga la anterior
     // elementos y el nuevo.
     // ¡Usar el spread operator de Dart aquí es útil!
+
+//!Comprobamos que no este repetido
+    if (exist(ejercicio.name)) {
+      return false;
+    }
     state = [...state, ejercicio];
+
     // No es necesario llamar a "notifyListeners" o algo similar. Llamando a "state ="
     // reconstruirá automáticamente la interfaz de usuario cuando sea necesario.
     savebitches();
+    return true;
     //!AQUI PONDREMOS QUE SE GUARDEN LAS COSAS
   }
 
@@ -87,6 +91,15 @@ class LocalExerciseNotifier extends StateNotifier<List<LocalExercise>> {
     //print(state);
     final prefs = await SharedPreferences.getInstance();
     prefs.setString('Exercises', jsonEncode(state));
+  }
+
+  bool exist(name) {
+    for (var exerice in state) {
+      if (exerice.name.toLowerCase() == name.toString().toLowerCase()) {
+        return true;
+      }
+    }
+    return false;
   }
 
   List<LocalExercise> todayExercises(String fetchDay) {

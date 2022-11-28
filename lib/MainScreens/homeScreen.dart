@@ -5,6 +5,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gymap/Extras/textBoxWidget.dart';
 import 'package:gymap/MainScreens/exerciseScreen.dart';
 import 'package:gymap/SimpleScreens/groupListScreen.dart';
 import 'package:gymap/States/states.dart';
@@ -93,6 +94,7 @@ class HomeScreen extends HookConsumerWidget {
       );
     }
 
+//!WIDGETS
     return Scaffold(
       //APPBAR
       appBar: customAppBar(context, greeting, user),
@@ -108,7 +110,7 @@ class HomeScreen extends HookConsumerWidget {
         const SizedBox(
           height: 20,
         ),
-        textToShow("Exercises"),
+        TextBox(texto: "Catalog"),
         const SizedBox(
           height: 30,
         ),
@@ -117,6 +119,7 @@ class HomeScreen extends HookConsumerWidget {
     );
   }
 
+//!CUSTOM APP BAR QUE DESPLIEGA UNA IMAGEN
   PreferredSize customAppBar(
       BuildContext context, String Function() greeting, String user) {
     return PreferredSize(
@@ -179,7 +182,7 @@ class HomeScreen extends HookConsumerWidget {
   Column myExercisesWidget(Widget Function() goToExercisesBtn) {
     return Column(
       children: [
-        textToShow("My Exercises"),
+        const TextBox(texto: "My Exercises"),
         const SizedBox(
           height: 15,
         ),
@@ -188,23 +191,9 @@ class HomeScreen extends HookConsumerWidget {
     );
   }
 
-  Widget textToShow(String texto) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Align(
-        alignment: Alignment.centerLeft,
-        child: Text(
-          texto,
-          style: GoogleFonts.karla(
-            fontWeight: FontWeight.bold,
-            fontSize: 28,
-            color: Colors.white70,
-          ),
-        ),
-      ),
-    );
-  }
+//TEXTOS YA ACOMODADOS PARA DESPLEGAR
 
+// BOTON CUADRADO PARA LA LISTA
   Widget squareButton(Exercises ejercicioLocal, context) {
     return Container(
       decoration: BoxDecoration(
@@ -245,6 +234,7 @@ class HomeScreen extends HookConsumerWidget {
     );
   }
 
+//LISTA CUADRADA DE EJERCICIOS
   Widget mainExercises(List<Exercises> ejercicios) {
     return Expanded(
       child: GridView.builder(

@@ -6,6 +6,7 @@ import 'package:gymap/Extras/ExerciseLabel.dart';
 import 'package:gymap/Extras/SilverSearchPage.dart';
 import 'package:gymap/SimpleScreens/addExerciseScreen.dart';
 import 'package:gymap/MainScreens/profileScreen.dart';
+
 import 'package:gymap/SimpleScreens/customExerciseScreen.dart';
 import 'package:gymap/States/states.dart';
 import 'package:gymap/classes/localExercise.dart';

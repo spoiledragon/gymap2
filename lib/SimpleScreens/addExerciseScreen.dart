@@ -59,7 +59,7 @@ class _AddExerciseScreenState extends ConsumerState<AddExerciseScreen> {
     final name = ref.watch(nameAddProvider);
     final weight = ref.watch(weightAddProvider);
     final group = ref.watch(groupAddProvider);
-    final type = ref.watch(typeAddProvider);
+
     final sets = ref.watch(setsAddProvider);
     final reps = ref.watch(repsAddProvider);
     final color = ref.watch(colorAddProvider);
@@ -67,7 +67,6 @@ class _AddExerciseScreenState extends ConsumerState<AddExerciseScreen> {
     var tester = LocalExercise(
         name: name,
         group: group,
-        type: type,
         weight: weight,
         sets: sets,
         reps: reps,
@@ -123,20 +122,6 @@ class _AddExerciseScreenState extends ConsumerState<AddExerciseScreen> {
         return false;
       }
 
-      final lista = ref.read(selectedProvider);
-      //!Verificacion del tipo 6
-      int notSelected = 0;
-      for (bool validado in lista) {
-        if (validado == false) {
-          notSelected++;
-        }
-      }
-      if (notSelected == 3) {
-        showToast(context, "Missed Type");
-        return false;
-      } else {
-        validaciones++;
-      }
       //! Verificacion de Dias 7
       int notSelectedDay = 0;
       for (DayInWeek dia in _days) {
@@ -153,7 +138,7 @@ class _AddExerciseScreenState extends ConsumerState<AddExerciseScreen> {
       }
 
       //! Si no LLegamos al menos a 6 no pasa
-      if (validaciones <= 6) {
+      if (validaciones <= 5) {
         return false;
       } else {
         return true;
@@ -168,14 +153,20 @@ class _AddExerciseScreenState extends ConsumerState<AddExerciseScreen> {
             diasString.add(dia.dayName);
           }
         }
-
-        ref.read(localExerciseProvider.notifier).addExercise(tester);
-        ref.read(nameAddProvider.state).state = "";
-        ref.read(groupAddProvider.state).state = "";
-        ref.read(weightAddProvider.state).state = 0;
-        ref.read(setsAddProvider.state).state = 0;
-        ref.read(repsAddProvider.state).state = 0;
-        Navigator.of(context).pop();
+        //!Comprobamos que no exista con el mismo nombre
+        if (ref
+            .read(localExerciseProvider.notifier)
+            .exist(nameEditingController.text)) {
+          showToast(context, "Name Already taken");
+        } else {
+          ref.read(localExerciseProvider.notifier).addExercise(tester);
+          ref.read(nameAddProvider.state).state = "";
+          ref.read(groupAddProvider.state).state = "";
+          ref.read(weightAddProvider.state).state = 1;
+          ref.read(setsAddProvider.state).state = 1;
+          ref.read(repsAddProvider.state).state = 1;
+          Navigator.of(context).pop();
+        }
       }
     }
 
@@ -220,10 +211,6 @@ class _AddExerciseScreenState extends ConsumerState<AddExerciseScreen> {
                 divisor(color),
                 const SizedBox(
                   height: 10,
-                ),
-                SizedBox(
-                  height: 30,
-                  child: typeWidget(color),
                 ),
                 groupWidget(group),
                 setsWidget(sets),
@@ -453,13 +440,13 @@ class _AddExerciseScreenState extends ConsumerState<AddExerciseScreen> {
       looping: true,
       // This is called when selected item is changed.
       onSelectedItemChanged: (int selectedItem) {
-        ref.read(setsAddProvider.state).state = selectedItem;
+        ref.read(setsAddProvider.state).state = selectedItem + 1;
       },
 
       children: List<Widget>.generate(10, (int index) {
         return Center(
           child: Text(
-            index.toString(),
+            (1 + index).toString(),
             style: GoogleFonts.karla(color: Colors.black),
           ),
         );
@@ -476,12 +463,12 @@ class _AddExerciseScreenState extends ConsumerState<AddExerciseScreen> {
       looping: true,
       // This is called when selected item is changed.
       onSelectedItemChanged: (int selectedItem) {
-        ref.read(repsAddProvider.state).state = selectedItem;
+        ref.read(repsAddProvider.state).state = selectedItem + 1;
       },
       children: List<Widget>.generate(50, (int index) {
         return Center(
           child: Text(
-            index.toString(),
+            (1 + index).toString(),
             style: GoogleFonts.karla(color: Colors.black),
           ),
         );
