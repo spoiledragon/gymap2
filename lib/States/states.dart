@@ -38,12 +38,14 @@ final userProvider = StateProvider<User>((ref) {
       gender: "",
       profilePicture: "",
       age: 0,
-      weight: 0);
+      weight: 0,
+      restTime: 120,
+      gymBro: "Random");
 });
 
 //Reloj
 final timeGlobalProvider = StateProvider<int>((ref) {
-  return 120;
+  return ref.read(userProvider.state).state.restTime;
 });
 final maingymBroProvider = StateProvider<String>((ref) => "");
 //! Para el index del registro
@@ -54,3 +56,22 @@ final controller2RegisterProvider =
 //!Para agregar ejercicios
 final controllerAddProvider =
     StateProvider<PageController>(((ref) => PageController()));
+//!Config Screen
+final timeProvider = StateProvider<int>((ref) {
+  return 120;
+});
+
+//! Para el index del ExerciseView
+final controllerExerciseProvider =
+    StateProvider<PageController>(((ref) => PageController()));
+
+//!Providers para trackear ls ejercicios
+final completeProvider = StateProvider<int>((ref) {
+  return 0;
+});
+final currentExerciseProvider = StateProvider<String>((ref) {
+  return "";
+});
+final currentSetsToDoProvider = StateProvider<int>((ref) {
+  return 0;
+});

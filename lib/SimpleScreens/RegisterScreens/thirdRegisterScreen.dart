@@ -27,9 +27,12 @@ class _ThirdScreenState extends ConsumerState<ThirdScreen> {
         password: ref.read(passwordRegisterProvider),
         family: ref.read(familyegisterProvider),
         gender: ref.read(genderRegisterProvider),
-        profilePicture: "https://pbs.twimg.com/media/Fg1UFFZWAAI1vA7?format=jpg&name=large",
+        profilePicture:
+            "https://pbs.twimg.com/media/Fg1UFFZWAAI1vA7?format=jpg&name=large",
         age: ref.read(ageRegisterProvider),
-        weight: ref.read(weightRegisterProvider));
+        weight: ref.read(weightRegisterProvider),
+        restTime: 120,
+        gymBro: "Random");
 
     final prefs = await SharedPreferences.getInstance();
     //convertimos el usuarios en un string

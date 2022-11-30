@@ -7,7 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gymap/Extras/textBoxWidget.dart';
 import 'package:gymap/MainScreens/exerciseScreen.dart';
-import 'package:gymap/SimpleScreens/groupListScreen.dart';
+import 'package:gymap/MainScreens/profileScreen.dart';
+import 'package:gymap/SimpleScreens/exercisesScreen/groupListScreen.dart';
 import 'package:gymap/States/states.dart';
 
 import 'package:gymap/classes/exercise.dart';
@@ -15,6 +16,7 @@ import 'package:gymap/classes/exercise.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:ionicons/ionicons.dart';
+import 'package:recase/recase.dart';
 
 class HomeScreen extends HookConsumerWidget {
   const HomeScreen();
@@ -110,7 +112,7 @@ class HomeScreen extends HookConsumerWidget {
         const SizedBox(
           height: 20,
         ),
-        TextBox(texto: "Catalog"),
+        const TextBox(texto: "Catalog"),
         const SizedBox(
           height: 30,
         ),
@@ -143,6 +145,21 @@ class HomeScreen extends HookConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Align(
+                      alignment: Alignment.topRight,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: IconButton(
+                          icon: const Icon(
+                            Ionicons.person_circle,
+                            size: 40,
+                          ),
+                          onPressed: () => Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) => const ProfileScreen())),
+                        ),
+                      ),
+                    ),
+                    Align(
                       alignment: Alignment.centerLeft,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -160,7 +177,7 @@ class HomeScreen extends HookConsumerWidget {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: Text(
-                          user.toUpperCase(),
+                          user.titleCase,
                           style: const TextStyle(
                               color: Colors.white,
                               fontSize: 32,
@@ -168,7 +185,7 @@ class HomeScreen extends HookConsumerWidget {
                               fontWeight: FontWeight.w900),
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),

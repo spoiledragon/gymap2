@@ -70,6 +70,7 @@ class _AddExerciseScreenState extends ConsumerState<AddExerciseScreen> {
         weight: weight,
         sets: sets,
         reps: reps,
+        complete:false,
         color: color,
         days: diasString);
 

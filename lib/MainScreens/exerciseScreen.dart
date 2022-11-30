@@ -3,14 +3,16 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gymap/Extras/ExerciseLabel.dart';
-import 'package:gymap/Extras/SilverSearchPage.dart';
-import 'package:gymap/SimpleScreens/addExerciseScreen.dart';
+import 'package:gymap/Extras/completeWidget.dart';
+import 'package:gymap/Extras/textBoxWidget.dart';
+import 'package:gymap/SimpleScreens/addScreens/addExerciseScreen.dart';
 import 'package:gymap/MainScreens/profileScreen.dart';
+import 'package:gymap/SimpleScreens/exercisesScreen/exerciseViews/clockScreen.dart';
 
-import 'package:gymap/SimpleScreens/customExerciseScreen.dart';
 import 'package:gymap/States/states.dart';
 import 'package:gymap/classes/localExercise.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:ionicons/ionicons.dart';
 
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
@@ -19,10 +21,8 @@ class ExercisePage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     //Provider
-    final String profilePicture =
-        ref.read(userProvider.state).state.profilePicture;
     List<LocalExercise> diplayList = ref.watch(filterListProvider);
-
+    final String todayDay = ref.watch(todayProvider);
     //!Funciones [Piolas]
 
     return Scaffold(
@@ -50,55 +50,90 @@ class ExercisePage extends HookConsumerWidget {
           ],
         ),
         actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const ClocksScreen()));
+              },
+              icon: const Icon(Ionicons.time)),
+          //!Para ir al perfil
           InkWell(
-            child: CircleAvatar(
-              backgroundImage: NetworkImage(profilePicture),
+            child: const CircleAvatar(
+              child: Icon(Ionicons.person),
             ),
-            onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const ProfileScreen())),
+            onTap: () {
+              ref.read(timeProvider.state).state =
+                  ref.read(userProvider.state).state.restTime;
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const ProfileScreen()));
+            },
           )
         ],
       ),
       //!SCROLL VIEW
-      body: CustomScrollView(
-        //!Barra de busqueda
-        slivers: [
-          const SliverPersistentHeader(
-            delegate: SliverSearchAppBar(),
-            // Set this param so that it won't go off the screen when scrolling
-            pinned: true,
+      body: Column(
+        children: [
+          MaterialButton(
+            onPressed: (() {
+              ref.read(todayProvider.state).state = "Monday";
+            }),
+            child: Text(todayDay),
           ),
-          //! Lista a
-          SliverList(
-            delegate:
-                SliverChildBuilderDelegate((BuildContext context, int index) {
-              //Generamos el ejercicio del index
-              final ejercicio = diplayList[index];
-              return Container(
-                //generamos un margin y padding
-                margin: const EdgeInsets.all(8),
-                padding: const EdgeInsets.all(16),
-                //creamos un widget inkwell para que sea presionable
-                child: InkWell(
-                  //si lo presinamos una vez lo mandamos a la pagina del widget
-                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                      builder: ((context) =>
-                          SingleExerciseScreen(exercise: ejercicio)))),
-                  //si lo dejamos presionado entonces lo borramos
-                  onLongPress: () => ref
-                      .read(localExerciseProvider.notifier)
-                      .removeExercise(ejercicio.name, ejercicio.weight),
-                  //como widget hijo es el ejercicio en forma grafica con el objeto interno ejercicio de forma de datos
-                  child: ExerciseWidget(
-                    exercise: ejercicio,
-                  ),
-                ),
-              );
-              //que se repita hasta que sea igual a la lista de ejercicios que se saca del provider
-            }, childCount: diplayList.length),
-          )
+
+          Expanded(
+            flex: 2,
+            child: ListView.builder(
+              itemCount: diplayList.length,
+              itemBuilder: (context, index) {
+                final ejercicio = diplayList[index];
+                if (ejercicio.complete == false) {
+                  return Container(
+                    //generamos un margin y padding
+                    margin: const EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(16),
+                    //creamos un widget inkwell para que sea presionable
+                    child: ExerciseWidget(
+                      exercise: ejercicio,
+                    ),
+                  );
+                }
+                return const SizedBox();
+              },
+            ),
+          ),
+          //!Lista de los Completados
+          const SizedBox(
+            height: 20,
+          ),
+          const TextBox(texto: "Completed"),
+          const SizedBox(
+            height: 20,
+          ),
+          Expanded(
+            flex: 1,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: diplayList.length,
+              itemBuilder: (context, index) {
+                final ejercicio = diplayList[index];
+                if (ejercicio.complete == true) {
+                  return Container(
+                    //generamos un margin y padding
+                    margin: const EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(16),
+                    //creamos un widget inkwell para que sea presionable
+                    child: CompleteWidget(
+                      exercise: ejercicio,
+                    ),
+                  );
+                }
+                return const SizedBox();
+              },
+            ),
+          ),
         ],
       ),
     );
   }
+
 }

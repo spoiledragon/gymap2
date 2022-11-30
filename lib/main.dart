@@ -41,23 +41,26 @@ class MyApp extends HookConsumerWidget {
 
   final lightTheme = ThemeData(
     scaffoldBackgroundColor: Colors.white,
-    primarySwatch: Colors.purple,
-    iconTheme: const IconThemeData(size: 20, color: Colors.black),
-    textTheme: const TextTheme(
-        subtitle1: TextStyle(
-      fontWeight: FontWeight.w400,
-      color: Colors.black,
-    )),
+    appBarTheme:
+        const AppBarTheme(backgroundColor: Color.fromARGB(255, 20, 20, 22)),
+    primarySwatch: Colors.blue,
+    floatingActionButtonTheme:
+        const FloatingActionButtonThemeData(backgroundColor: Colors.black),
+    brightness: Brightness.dark,
+    iconTheme: const IconThemeData(size: 20, color: Colors.white),
     inputDecorationTheme: InputDecorationTheme(
-      fillColor: Colors.white,
+      filled: true,
+      fillColor: const Color.fromARGB(255, 37, 37, 37),
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(30.0),
+        borderSide: BorderSide.none,
+        borderRadius: BorderRadius.circular(20),
       ),
-      hintStyle: const TextStyle(
-        color: Colors.black45,
+    ),
+    textTheme: const TextTheme(
+      subtitle1: TextStyle(
+        color: Colors.black,
       ),
-      labelStyle:
-          const TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
+      bodyText1: TextStyle(color: Colors.black),
     ),
   );
 

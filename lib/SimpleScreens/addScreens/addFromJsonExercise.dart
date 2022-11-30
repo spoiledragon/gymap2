@@ -117,15 +117,15 @@ class _AddFromJsonScreenState extends ConsumerState<AddFromJsonScreen> {
   }
 
   Widget formInput(
-      GlobalKey<FormState> _formKey, TextEditingController _weightController) {
+      GlobalKey<FormState> formKey, TextEditingController weightController) {
     return Form(
-        key: _formKey,
+        key: formKey,
         child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 20,
           ),
           child: TextFormField(
-            controller: _weightController,
+            controller: weightController,
             textAlign: TextAlign.center,
             textInputAction: TextInputAction.none,
             keyboardType: TextInputType.number,
@@ -137,7 +137,7 @@ class _AddFromJsonScreenState extends ConsumerState<AddFromJsonScreen> {
               //Bordes
             ),
             onChanged: (value) {
-              if (_weightController.text.isNotEmpty) {
+              if (weightController.text.isNotEmpty) {
                 ref.read(weightAddProvider.state).state = int.parse(value);
               } else {
                 ref.read(weightAddProvider.state).state = 0;
@@ -211,7 +211,8 @@ class _AddFromJsonScreenState extends ConsumerState<AddFromJsonScreen> {
                 sets: ref.read(setsAddProvider.state).state,
                 reps: ref.read(repsAddProvider.state).state,
                 color: widget.color,
-                days: diasString);
+                days: diasString,
+                complete: false);
             //!Agregamos el ejercicio al provider
 
             bool saved =

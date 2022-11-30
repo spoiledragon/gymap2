@@ -2,8 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gymap/SimpleScreens/addFromJsonExercise.dart';
-import 'package:gymap/States/states.dart';
+import 'package:gymap/SimpleScreens/addScreens/addFromJsonExercise.dart';
 import 'package:gymap/classes/exercise.dart';
 import 'package:gymap/classes/localExercise.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

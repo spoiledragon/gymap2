@@ -1,7 +1,6 @@
 // ignore_for_file: file_names, use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
-import 'package:gymap/Extras/searchExerciseDelegate.dart';
 import 'package:gymap/classes/localExercise.dart';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -12,7 +11,6 @@ class SearchBar extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final list = ref.watch(localExerciseProvider);
     return SizedBox(
       width: MediaQuery.of(context).size.width - 32,
       child: TextFormField(
@@ -34,10 +32,7 @@ class SearchBar extends HookConsumerWidget {
         onChanged: (value) =>
             ref.read(searchProvider.notifier).update((state) => value),
         onFieldSubmitted: (value) {
-          showSearch(
-              context: context,
-              delegate:
-                  SearchExerciseDelegate(valueQuery: value, ejercicios: list));
+          //showSearch( context: context, delegate:SearchExerciseDelegate(valueQuery: value, ejercicios: list));
         },
       ),
     );

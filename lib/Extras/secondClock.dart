@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names, file_names
 
 import 'dart:async';
 import 'package:flutter/material.dart';
@@ -9,60 +9,52 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 //Cronometro 1
 
-final runingProvider = StateProvider<bool>((ref) => false);
-final secondtickProvider =
+final runingProvider2 = StateProvider<bool>((ref) => false);
+final secondtickProvider2 =
     StateProvider((ref) => ref.read(timeGlobalProvider.state).state);
 
-class Clock extends ConsumerStatefulWidget {
+class SecondClock extends ConsumerStatefulWidget {
   final int color;
-  const Clock({Key? key, required this.color}) : super(key: key);
+  const SecondClock({Key? key, required this.color}) : super(key: key);
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _ClockState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _SecondClockState();
 }
 
-class _ClockState extends ConsumerState<Clock> {
+class _SecondClockState extends ConsumerState<SecondClock> {
   Timer? timer;
 
   @override
   Widget build(BuildContext context) {
-    int ticks = ref.watch(secondtickProvider);
-    bool isRunning = ref.watch(runingProvider);
+    final name = ref.read(userProvider.state).state.gymBro;
+    int ticks = ref.watch(secondtickProvider2);
+    bool isRunning = ref.watch(runingProvider2);
     //FUNCIONES
 
-
     void pauseTimer() {
-      ref.read(runingProvider.state).state = false;
+      ref.read(runingProvider2.state).state = false;
       timer?.cancel();
     }
 
     void stopTimer() {
-      ref.read(runingProvider.state).state = false;
-      ref.read(secondtickProvider.state).state =
+      ref.read(runingProvider2.state).state = false;
+      ref.read(secondtickProvider2.state).state =
           ref.read(timeGlobalProvider.state).state;
       timer?.cancel();
     }
 
     void starttimer() {
-     
-
-      //Funcion que si me deja avanzar como si nada
-      if (ref.read(runingProvider.state).state == false) {
-        ref.read(runingProvider.state).state = true;
+      if (ref.read(runingProvider2.state).state == false) {
+        ref.read(runingProvider2.state).state = true;
         //timer que decrementa cada segundoi
         // ignore: avoid_types_as_parameter_names
-        timer = Timer.periodic(const Duration(milliseconds: 1),
-            (Timer Timer) async {
+        timer = Timer.periodic(const Duration(seconds: 1), (Timer Timer) async {
           //el no va a parar
           //!Si el segundero es mayor a 0 y esta corriendo
-          if (ref.read(secondtickProvider.state).state > 0) {
-            ref.read(secondtickProvider.state).state--;
+          if (ref.read(secondtickProvider2.state).state > 0) {
+            ref.read(secondtickProvider2.state).state--;
           } else {
             stopTimer();
-            //Logica para saber que ya termino esta madre y no presionamos el boton de detener
-            ref.read(completeProvider.state).state++;
-            //aqui haremos una comprobacion para guardar que si lo terminamos en el dia
-
           }
         });
       } else {
@@ -73,7 +65,7 @@ class _ClockState extends ConsumerState<Clock> {
     Widget buildTime() => Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(ref.read(userProvider.state).state.nickname),
+            Text(name),
             Text(
               "$ticks",
               style: GoogleFonts.bebasNeue(fontSize: 60, color: Colors.white),

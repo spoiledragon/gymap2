@@ -17,6 +17,7 @@ class _SelecterWidgetState extends ConsumerState<SelecterWidget> {
   @override
   Widget build(BuildContext context) {
     List<Selecter> selecter = ref.watch(selecterProvider);
+    // ignore: unused_local_variable
     final singleSelecter = ref.watch(familyegisterProvider);
     return SizedBox(
       height: 90,

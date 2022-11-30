@@ -49,7 +49,7 @@ class FirstScreen extends ConsumerWidget {
                   ),
                   textInputAction: TextInputAction.next,
                   validator: (value) {
-                    if (value!.isNotEmpty && value.length >4) {
+                    if (value!.isNotEmpty && value.length > 4) {
                       return null;
                     } else if (value.length < 4 && value.isNotEmpty) {
                       return "No way this is your name";
@@ -177,7 +177,9 @@ class FirstScreen extends ConsumerWidget {
         profilePicture:
             "https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cHJvZmlsZXxlbnwwfHwwfHw%3D&w=1000&q=80",
         weight: w,
-        age: a);
+        age: a,
+        restTime: 120,
+        gymBro:"Random");
 
     //AHORA LLAMAMOS A LAS PREFS COMO SIEMPRE
     final prefs = await SharedPreferences.getInstance();

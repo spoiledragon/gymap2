@@ -5,6 +5,9 @@ import 'dart:developer';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/intl.dart';
+
+//Dia de hoy
 
 List<LocalExercise> exercisesFromJson(String str) => List<LocalExercise>.from(
     json.decode(str).map((x) => LocalExercise.fromJson(x)));
@@ -20,15 +23,16 @@ class LocalExercise {
       required this.sets,
       required this.reps,
       required this.color,
-      required this.days});
+      required this.days,
+      required this.complete});
 
   String name;
   String group;
-
   int weight;
   int sets;
   int reps;
   int color;
+  bool complete;
   List<String> days;
 
   factory LocalExercise.fromJson(Map<String, dynamic> json) => LocalExercise(
@@ -38,6 +42,7 @@ class LocalExercise {
         sets: json["sets"],
         reps: json["reps"],
         color: json["color"],
+        complete: json["complete"],
         days: List<String>.from(json["days"].map((x) => x)),
       );
 
@@ -48,6 +53,7 @@ class LocalExercise {
         "sets": sets,
         "reps": reps,
         "color": color,
+        "complete": complete,
         "days": List<dynamic>.from(days.map((x) => x)),
       };
 }
@@ -87,6 +93,20 @@ class LocalExerciseNotifier extends StateNotifier<List<LocalExercise>> {
     savebitches();
   }
 
+  void completeExercise(String nombre) {
+    List<LocalExercise> tempList = state;
+
+    for (var exe in tempList) {
+      if (exe.name == nombre) {
+        exe.complete = !exe.complete;
+      }
+    }
+    for (var exe in tempList) {
+      log(exe.complete.toString());
+    }
+    state = List.from(tempList);
+  }
+
   savebitches() async {
     //print(state);
     final prefs = await SharedPreferences.getInstance();
@@ -101,48 +121,6 @@ class LocalExerciseNotifier extends StateNotifier<List<LocalExercise>> {
     }
     return false;
   }
-
-  List<LocalExercise> todayExercises(String fetchDay) {
-    List<LocalExercise> todayExercises = [];
-    //var today = DateFormat('EEEE').format(DateTime.now());
-
-    //creamos lista vacia de ejercicios
-    //recorremos los ejercicios en el estado
-    for (final ejercicio in state) {
-      //creamos la vairable de dias a partir del arreglo json del ejercicio
-      final dias = ejercicio.days;
-      //comprobamos si corresponde con el dia de hoy
-      for (String dia in dias) {
-        if (dia == fetchDay) {
-          log(dia);
-          log(ejercicio.name);
-          todayExercises.add(ejercicio);
-        }
-      }
-    }
-    return todayExercises;
-  }
-
-  List<LocalExercise> onSearch(String search) {
-    List<LocalExercise> todayExercises = [];
-    //var today = DateFormat('EEEE').format(DateTime.now());
-
-    //creamos lista vacia de ejercicios
-    //recorremos los ejercicios en el estado
-    for (final ejercicio in state) {
-      //creamos la vairable de dias a partir del arreglo json del ejercicio
-      final dias = ejercicio.days;
-      //comprobamos si corresponde con el dia de hoy
-      for (String dia in dias) {
-        if (dia == search) {
-          log(dia);
-          log(ejercicio.name);
-          todayExercises.add(ejercicio);
-        }
-      }
-    }
-    return todayExercises;
-  }
 }
 
 // Finalmente, estamos usando StateNotifierProvider para permitir que la
@@ -151,11 +129,33 @@ final localExerciseProvider =
     StateNotifierProvider<LocalExerciseNotifier, List<LocalExercise>>((ref) {
   return LocalExerciseNotifier();
 });
-//Provider que me regresa solo los ejercicios del dia actual
 
 final searchProvider = StateProvider<String>(((ref) => ""));
+final todayProvider = StateProvider<String>((ref) {
+  var today = DateFormat('EEEE').format(DateTime.now());
+  return today;
+});
+
+final todayList = StateProvider<List<LocalExercise>>(((ref) {
+  // ignore: no_leading_underscores_for_local_identifiers
+  final _todayList = ref.watch(localExerciseProvider);
+  final todayDay = ref.watch(todayProvider);
+  List<LocalExercise> todayList2 = [];
+
+  for (var exe in _todayList) {
+    var days = exe.days;
+    for (var day in days) {
+      if (day == todayDay) {
+        todayList2.add(exe);
+      }
+    }
+  }
+  return todayList2;
+}));
+
 final filterListProvider = StateProvider<List<LocalExercise>>(((ref) {
-  final lista = ref.watch(localExerciseProvider);
+  //Provider que me regresa solo los ejercicios buscados
+  final lista = ref.watch(todayList);
   final searchString = ref.watch(searchProvider);
 
   return lista
