@@ -1,28 +1,27 @@
 // ignore_for_file: file_names, no_leading_underscores_for_local_identifiers
 
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 import 'package:gymap/Extras/ExerciseLabel.dart';
 import 'package:gymap/Extras/completeWidget.dart';
 import 'package:gymap/Extras/textBoxWidget.dart';
 import 'package:gymap/SimpleScreens/addScreens/addExerciseScreen.dart';
-import 'package:gymap/MainScreens/profileScreen.dart';
 import 'package:gymap/SimpleScreens/exercisesScreen/exerciseViews/clockScreen.dart';
 
-import 'package:gymap/States/states.dart';
 import 'package:gymap/classes/localExercise.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:ionicons/ionicons.dart';
-
-import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 class ExercisePage extends HookConsumerWidget {
   const ExercisePage({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     //Provider
-    List<LocalExercise> diplayList = ref.watch(filterListProvider);
+    List<LocalExercise> displayList = ref.watch(filterListProvider);
     final String todayDay = ref.watch(todayProvider);
+
     //!Funciones [Piolas]
 
     return Scaffold(
@@ -41,13 +40,13 @@ class ExercisePage extends HookConsumerWidget {
       appBar: AppBar(
         elevation: 0,
         centerTitle: true,
-        title: GradientText(
-          'My Exercises',
-          style: GoogleFonts.karla(fontSize: 28.0, fontWeight: FontWeight.bold),
-          colors: const [
-            Color.fromARGB(255, 253, 23, 6),
-            Color.fromARGB(255, 95, 40, 190)
-          ],
+        title: TextFormField(
+          onChanged: (value) => ref.read(searchProvider.state).state = value,
+          textAlign: TextAlign.center,
+          decoration: const InputDecoration(
+            hintText: "Search Something",
+            filled: false,
+          ),
         ),
         actions: [
           IconButton(
@@ -56,79 +55,121 @@ class ExercisePage extends HookConsumerWidget {
                     builder: (context) => const ClocksScreen()));
               },
               icon: const Icon(Ionicons.time)),
-          //!Para ir al perfil
-          InkWell(
-            child: const CircleAvatar(
-              child: Icon(Ionicons.person),
-            ),
-            onTap: () {
-              ref.read(timeProvider.state).state =
-                  ref.read(userProvider.state).state.restTime;
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const ProfileScreen()));
-            },
-          )
         ],
       ),
-      //!SCROLL VIEW
+      //!SCROLL VIEW DE LOS NO COMPLETADOS
       body: Column(
         children: [
           MaterialButton(
-            onPressed: (() {
-              ref.read(todayProvider.state).state = "Monday";
-            }),
-            child: Text(todayDay),
-          ),
+            /*onPressed: () => showDialog(
+                context: context, builder: (context) => AlertDialog(
 
-          Expanded(
-            flex: 2,
-            child: ListView.builder(
-              itemCount: diplayList.length,
-              itemBuilder: (context, index) {
-                final ejercicio = diplayList[index];
-                if (ejercicio.complete == false) {
-                  return Container(
-                    //generamos un margin y padding
-                    margin: const EdgeInsets.all(8),
-                    padding: const EdgeInsets.all(16),
-                    //creamos un widget inkwell para que sea presionable
-                    child: ExerciseWidget(
-                      exercise: ejercicio,
-                    ),
-                  );
-                }
-                return const SizedBox();
-              },
+                )),
+             */
+            onPressed: () => showModalBottomSheet(
+              context: context,
+              builder: (context) => botomModal(ref, context),
+            ),
+            child: Container(
+              width: double.infinity,
+              height: 30,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12), color: Colors.grey),
+              child: Center(child: Text(todayDay)),
             ),
           ),
+
+          displayList.isNotEmpty
+              ? Expanded(
+                  flex: 2,
+                  child: ListView.builder(
+                    itemCount: displayList.length,
+                    itemBuilder: (context, index) {
+                      final ejercicio = displayList[index];
+                      if (ejercicio.complete == false) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 10),
+                          child: Slidable(
+                            endActionPane: ActionPane(
+                                motion: const ScrollMotion(),
+                                children: [
+                                  //Delete
+                                  SlidableAction(
+                                    flex: 2,
+                                    onPressed: (context) {
+                                      ref
+                                          .read(localExerciseProvider.notifier)
+                                          .removeExercise(
+                                              ejercicio.name, ejercicio.weight);
+                                    },
+                                    backgroundColor: Colors.red,
+                                    foregroundColor: Colors.white,
+                                    icon: Ionicons.trash_bin,
+                                    label: 'Delete',
+                                  ),
+                                  //Complete
+                                  SlidableAction(
+                                    // An action can be bigger than the others.
+                                    flex: 2,
+                                    onPressed: (context) {
+                                      ref
+                                          .read(localExerciseProvider.notifier)
+                                          .completeExercise(ejercicio.name);
+                                    },
+                                    backgroundColor:
+                                        const Color.fromARGB(255, 67, 117, 192),
+                                    foregroundColor: Colors.white,
+                                    icon: Icons.play_arrow,
+                                    label: 'Complete',
+                                  ),
+                                ]),
+                            child: Center(
+                              child: ExerciseWidget(
+                                exercise: ejercicio,
+                              ),
+                            ),
+                          ),
+                        );
+                      }
+                      return const SizedBox();
+                    },
+                  ),
+                )
+              : const TextBox(
+                  texto: "Empy List",
+                ),
           //!Lista de los Completados
           const SizedBox(
             height: 20,
           ),
-          const TextBox(texto: "Completed"),
-          const SizedBox(
-            height: 20,
-          ),
+
           Expanded(
-            flex: 1,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: diplayList.length,
-              itemBuilder: (context, index) {
-                final ejercicio = diplayList[index];
-                if (ejercicio.complete == true) {
-                  return Container(
-                    //generamos un margin y padding
-                    margin: const EdgeInsets.all(8),
-                    padding: const EdgeInsets.all(16),
-                    //creamos un widget inkwell para que sea presionable
-                    child: CompleteWidget(
-                      exercise: ejercicio,
-                    ),
-                  );
-                }
-                return const SizedBox();
-              },
+            child: Column(
+              children: [
+                const TextBox(texto: "Completed"),
+                Expanded(
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: displayList.length,
+                    itemBuilder: (context, index) {
+                      final ejercicio = displayList[index];
+                      if (ejercicio.complete == true) {
+                        return Container(
+                          //generamos un margin y padding
+                          margin: const EdgeInsets.all(8),
+                          padding: const EdgeInsets.all(16),
+                          //creamos un widget inkwell para que sea presionable
+                          child: CompleteWidget(
+                            exercise: ejercicio,
+                          ),
+                        );
+                      }
+                      return const SizedBox();
+                    },
+                  ),
+                ),
+              ],
             ),
           ),
         ],
@@ -136,4 +177,88 @@ class ExercisePage extends HookConsumerWidget {
     );
   }
 
+//MOdal inferior para elegir que dia quieres
+  Column botomModal(WidgetRef ref, BuildContext context) {
+    return Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+      InkWell(
+        child: SizedBox(
+            width: double.infinity,
+            child: Center(
+                child: Text(
+              "Monday",
+              style: GoogleFonts.openSans(fontSize: 24),
+            ))),
+        onTap: () {
+          ref.read(todayProvider.state).state = "Monday";
+          Navigator.of(context).pop();
+        },
+      ),
+      InkWell(
+        child: SizedBox(
+            width: double.infinity,
+            child: Center(
+                child: Text("Tuesday",
+                    style: GoogleFonts.openSans(fontSize: 24)))),
+        onTap: () {
+          ref.read(todayProvider.state).state = "Tuesday";
+          Navigator.of(context).pop();
+        },
+      ),
+      InkWell(
+        child: SizedBox(
+            width: double.infinity,
+            child: Center(
+                child: Text("Wednesday",
+                    style: GoogleFonts.openSans(fontSize: 24)))),
+        onTap: () {
+          ref.read(todayProvider.state).state = "Wednesday";
+          Navigator.of(context).pop();
+        },
+      ),
+      InkWell(
+        child: SizedBox(
+            width: double.infinity,
+            child: Center(
+                child: Text("Thursday",
+                    style: GoogleFonts.openSans(fontSize: 24)))),
+        onTap: () {
+          ref.read(todayProvider.state).state = "Thursday";
+          Navigator.of(context).pop();
+        },
+      ),
+      InkWell(
+        child: SizedBox(
+            width: double.infinity,
+            child: Center(
+                child:
+                    Text("Friday", style: GoogleFonts.openSans(fontSize: 24)))),
+        onTap: () {
+          ref.read(todayProvider.state).state = "Friday";
+          Navigator.of(context).pop();
+        },
+      ),
+      InkWell(
+        child: SizedBox(
+            width: double.infinity,
+            child: Center(
+                child: Text("Saturday",
+                    style: GoogleFonts.openSans(fontSize: 24)))),
+        onTap: () {
+          ref.read(todayProvider.state).state = "Saturday";
+          Navigator.of(context).pop();
+        },
+      ),
+      InkWell(
+        child: SizedBox(
+            width: double.infinity,
+            child: Center(
+                child:
+                    Text("Sunday", style: GoogleFonts.openSans(fontSize: 24)))),
+        onTap: () {
+          ref.read(todayProvider.state).state = "Sunday";
+          Navigator.of(context).pop();
+        },
+      ),
+    ]);
+  }
 }

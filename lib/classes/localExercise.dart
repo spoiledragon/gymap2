@@ -1,7 +1,6 @@
 // ignore_for_file: file_names
 
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -83,7 +82,7 @@ class LocalExerciseNotifier extends StateNotifier<List<LocalExercise>> {
     //!AQUI PONDREMOS QUE SE GUARDEN LAS COSAS
   }
 
-  void removeExercise(String nombre, int weight) {
+  bool removeExercise(String nombre, int weight) {
     // Nuevamente, nuestro estado es inmutable. Así que estamos haciendo
     // una nueva lista en lugar de cambiar la lista existente.
     state = [
@@ -91,6 +90,7 @@ class LocalExerciseNotifier extends StateNotifier<List<LocalExercise>> {
         if (exe.name != nombre && exe.weight != weight) exe,
     ];
     savebitches();
+    return true;
   }
 
   void completeExercise(String nombre) {
@@ -101,15 +101,20 @@ class LocalExerciseNotifier extends StateNotifier<List<LocalExercise>> {
         exe.complete = !exe.complete;
       }
     }
-    for (var exe in tempList) {
-      log(exe.complete.toString());
-    }
+
     state = List.from(tempList);
   }
 
   savebitches() async {
-    //print(state);
     final prefs = await SharedPreferences.getInstance();
+    List<LocalExercise> tempList = state;
+
+    for (var exe in tempList) {
+      if (exe.complete == true) {
+        exe.complete = false;
+      }
+    }
+
     prefs.setString('Exercises', jsonEncode(state));
   }
 

@@ -69,7 +69,7 @@ class MyApp extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkTheme = ref.watch(isDarkMode);
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'WolfApp',
       debugShowCheckedModeBanner: false,
       theme: isDarkTheme ? darkTheme : lightTheme,
       home: const SplashScreen(),

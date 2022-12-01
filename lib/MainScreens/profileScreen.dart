@@ -32,17 +32,7 @@ class ProfileScreen extends HookConsumerWidget {
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.black,
-          actions: [
-            IconButton(
-                onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: ((context) => const ConfigScreen())));
-                },
-                icon: const Icon(
-                  Ionicons.aperture,
-                  color: Colors.white,
-                ))
-          ],
+         
         ),
         body: Container(
           width: double.infinity,
