@@ -1,6 +1,7 @@
 // ignore_for_file: file_names, use_build_context_synchronously, body_might_complete_normally_nullable
 
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -8,6 +9,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gymap/MainScreens/homeScreen.dart';
 import 'package:gymap/MainScreens/loginScreen.dart';
 import 'package:gymap/States/states.dart';
+
 import 'package:gymap/classes/exercise.dart';
 import 'package:gymap/classes/localExercise.dart';
 import 'package:gymap/classes/user.dart';
@@ -46,6 +48,16 @@ class SplashScreen extends HookConsumerWidget {
         var exe = jsonData[i];
         LocalExercise x = LocalExercise.fromJson(exe);
         ref.read(localExerciseProvider.notifier).addExercise(x);
+      }
+
+//!!AQUI SACAMOS LOS LOGS
+      final List<dynamic> jsonlogs =
+          jsonDecode(prefs.getString('Logs') ?? '[]');
+      log(jsonlogs.toString());
+      for (int i = 0; i < jsonlogs.length; i++) {
+        var log = jsonlogs[i];
+
+        CompletedExercises x = CompletedExercises.fromJson(log);
       }
     }
 

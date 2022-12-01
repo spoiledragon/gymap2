@@ -85,7 +85,6 @@ class _ConfigScreenState extends ConsumerState<ConfigScreen> {
       );
     }
 
-    final bool darkMode = ref.watch(isDarkMode);
     final time = ref.watch(timeProvider);
 
     return WillPopScope(
@@ -96,10 +95,10 @@ class _ConfigScreenState extends ConsumerState<ConfigScreen> {
             .read(userProvider.state)
             .state
             .updateData(ref.read(userProvider.state).state);
-            //!Actualizamos los contadores en ejecucion
+        //!Actualizamos los contadores en ejecucion
         ref.read(timeGlobalProvider.state).state =
             ref.read(userProvider.state).state.restTime;
-            //!Imprimimos que se hizo mas que nada 
+        //!Imprimimos que se hizo mas que nada
         log((ref.read(userProvider.state).state.restTime).toString());
         return Navigator.canPop(context);
       },
@@ -139,6 +138,8 @@ class _ConfigScreenState extends ConsumerState<ConfigScreen> {
             const SizedBox(
               height: 40,
             ),
+
+            /*
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               //!DARKMODE
@@ -156,6 +157,7 @@ class _ConfigScreenState extends ConsumerState<ConfigScreen> {
                 ],
               ),
             ),
+             */
           ],
         ),
       ),

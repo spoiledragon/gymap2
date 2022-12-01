@@ -212,7 +212,8 @@ class _AddFromJsonScreenState extends ConsumerState<AddFromJsonScreen> {
                 reps: ref.read(repsAddProvider.state).state,
                 color: widget.color,
                 days: diasString,
-                complete: false);
+                complete: false,
+                completeds: []);
             //!Agregamos el ejercicio al provider
 
             bool saved =

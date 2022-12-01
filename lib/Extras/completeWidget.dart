@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gymap/SimpleScreens/exercisesScreen/exerciseViews/customExerciseScreen.dart';
+import 'package:gymap/States/states.dart';
 import 'package:gymap/classes/localExercise.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -47,6 +48,7 @@ class _CompleteWidgetState extends ConsumerState<CompleteWidget> {
           style: GoogleFonts.karla(fontSize: 28, fontWeight: FontWeight.bold),
         ),
         onPressed: () {
+          ref.read(currentExerciseProvider.state).state = widget.exercise.name;
           Navigator.of(context).push(MaterialPageRoute(
               builder: ((context) =>
                   SingleExerciseScreen(exercise: widget.exercise))));

@@ -9,6 +9,8 @@ import 'package:gymap/Extras/completeWidget.dart';
 import 'package:gymap/Extras/textBoxWidget.dart';
 import 'package:gymap/SimpleScreens/addScreens/addExerciseScreen.dart';
 import 'package:gymap/SimpleScreens/exercisesScreen/exerciseViews/clockScreen.dart';
+import 'package:gymap/SimpleScreens/exercisesScreen/exerciseViews/customExerciseScreen.dart';
+import 'package:gymap/States/states.dart';
 
 import 'package:gymap/classes/localExercise.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -20,6 +22,7 @@ class ExercisePage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     //Provider
     List<LocalExercise> displayList = ref.watch(filterListProvider);
+    List<LocalExercise> completeList = ref.watch(completeListExerciseProvider);
     final String todayDay = ref.watch(todayProvider);
 
     //!Funciones [Piolas]
@@ -60,100 +63,143 @@ class ExercisePage extends HookConsumerWidget {
       //!SCROLL VIEW DE LOS NO COMPLETADOS
       body: Column(
         children: [
-          MaterialButton(
-            /*onPressed: () => showDialog(
-                context: context, builder: (context) => AlertDialog(
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: MaterialButton(
+              /*onPressed: () => showDialog(
+                  context: context, builder: (context) => AlertDialog(
 
-                )),
-             */
-            onPressed: () => showModalBottomSheet(
-              context: context,
-              builder: (context) => botomModal(ref, context),
-            ),
-            child: Container(
-              width: double.infinity,
-              height: 30,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12), color: Colors.grey),
-              child: Center(child: Text(todayDay)),
+                  )),
+               */
+              onPressed: () => showModalBottomSheet(
+                context: context,
+                builder: (context) => botomModal(ref, context),
+              ),
+              child: Container(
+                width: double.infinity,
+                height: 30,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: Colors.grey),
+                child: Center(child: Text(todayDay)),
+              ),
             ),
           ),
 
-          displayList.isNotEmpty
-              ? Expanded(
-                  flex: 2,
-                  child: ListView.builder(
-                    itemCount: displayList.length,
-                    itemBuilder: (context, index) {
-                      final ejercicio = displayList[index];
-                      if (ejercicio.complete == false) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 10),
-                          child: Slidable(
-                            endActionPane: ActionPane(
-                                motion: const ScrollMotion(),
-                                children: [
-                                  //Delete
-                                  SlidableAction(
-                                    flex: 2,
-                                    onPressed: (context) {
-                                      ref
-                                          .read(localExerciseProvider.notifier)
-                                          .removeExercise(
-                                              ejercicio.name, ejercicio.weight);
-                                    },
-                                    backgroundColor: Colors.red,
-                                    foregroundColor: Colors.white,
-                                    icon: Ionicons.trash_bin,
-                                    label: 'Delete',
-                                  ),
-                                  //Complete
-                                  SlidableAction(
-                                    // An action can be bigger than the others.
-                                    flex: 2,
-                                    onPressed: (context) {
-                                      ref
-                                          .read(localExerciseProvider.notifier)
-                                          .completeExercise(ejercicio.name);
-                                    },
-                                    backgroundColor:
-                                        const Color.fromARGB(255, 67, 117, 192),
-                                    foregroundColor: Colors.white,
-                                    icon: Icons.play_arrow,
-                                    label: 'Complete',
-                                  ),
-                                ]),
-                            child: Center(
-                              child: ExerciseWidget(
-                                exercise: ejercicio,
-                              ),
+          if (displayList.isNotEmpty)
+            Expanded(
+              flex: 2,
+              child: ListView.builder(
+                itemCount: displayList.length,
+                itemBuilder: (context, index) {
+                  final ejercicio = displayList[index];
+                  if (ejercicio.complete == false) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 10),
+                      child: Slidable(
+                        endActionPane:
+                            ActionPane(motion: const ScrollMotion(), children: [
+                          //Delete
+                          SlidableAction(
+                            borderRadius: BorderRadius.circular(5),
+                            flex: 2,
+                            onPressed: (context) {
+                              ref
+                                  .read(localExerciseProvider.notifier)
+                                  .removeExercise(
+                                      ejercicio.name, ejercicio.weight);
+                            },
+                            backgroundColor: Colors.red,
+                            foregroundColor: Colors.white,
+                            icon: Ionicons.trash_bin,
+                            label: 'Delete',
+                          ),
+                          //Complete
+                          SlidableAction(
+                            // An action can be bigger than the others.
+                            flex: 2,
+
+                            onPressed: (context) {
+                              //!Para Completar
+                              ref
+                                  .read(localExerciseProvider.notifier)
+                                  .completeExercise(ejercicio.name);
+                              //!Para crear el registro
+                              //conseugimos la fecha de ahorita mismo
+                              DateTime rightNow = DateTime(DateTime.now().year,
+                                  DateTime.now().month, DateTime.now().day);
+                              //!Creamos la instancia de completedExercise
+                              final hello = CompletedExercises(
+                                  date: rightNow.toString(),
+                                  name: ejercicio.name,
+                                  weight: ejercicio.weight.toString());
+                              ref
+                                  .read(localExerciseProvider.notifier)
+                                  .addComplete(ejercicio.name, hello);
+                            },
+                            backgroundColor:
+                                const Color.fromARGB(255, 67, 117, 192),
+                            borderRadius: BorderRadius.circular(5),
+                            foregroundColor: Colors.white,
+                            icon: Icons.play_arrow,
+                            label: 'Complete',
+                          ),
+                        ]),
+                        child: Center(
+                          child: InkWell(
+                            onTap: () {
+                              ref.read(currentExerciseProvider.state).state =
+                                  ejercicio.name;
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: ((context) => SingleExerciseScreen(
+                                      exercise: ejercicio))));
+                            },
+                            child: ExerciseWidget(
+                              exercise: ejercicio,
                             ),
                           ),
-                        );
-                      }
-                      return const SizedBox();
-                    },
-                  ),
-                )
-              : const TextBox(
-                  texto: "Empy List",
-                ),
+                        ),
+                      ),
+                    );
+                  }
+                  return const SizedBox();
+                },
+              ),
+            )
+          else
+            const TextBox(
+              texto: "Empy List",
+            ),
           //!Lista de los Completados
           const SizedBox(
             height: 20,
           ),
-
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const TextBox(texto: "Completed"),
+              Row(
+                children: [
+                  const Text("Back Everything"),
+                  IconButton(
+                      onPressed: () => ref
+                          .read(localExerciseProvider.notifier)
+                          .retrieveEverything(),
+                      icon: const Icon(Ionicons.arrow_undo)),
+                ],
+              )
+            ],
+          ),
           Expanded(
             child: Column(
               children: [
-                const TextBox(texto: "Completed"),
                 Expanded(
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: displayList.length,
+                    itemCount: completeList.length,
                     itemBuilder: (context, index) {
-                      final ejercicio = displayList[index];
+                      final ejercicio = completeList[index];
                       if (ejercicio.complete == true) {
                         return Container(
                           //generamos un margin y padding

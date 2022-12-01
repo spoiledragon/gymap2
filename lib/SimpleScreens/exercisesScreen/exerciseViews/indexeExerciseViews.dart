@@ -40,6 +40,7 @@ class _IndexedRegisterScreensState
       PageView(
         scrollDirection: Axis.horizontal,
         controller: controller,
+        //physics: const NeverScrollableScrollPhysics(),
         children: ScreensPages,
       ),
       //contendor que muestra los puntos de que pagian estamos

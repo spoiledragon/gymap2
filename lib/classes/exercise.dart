@@ -73,9 +73,6 @@ class ExerciseNotifier extends StateNotifier<List<Exercises>> {
     // ¡Usar el spread operator de Dart aquí es útil!
     state = [...state, ejercicio];
     // No es necesario llamar a "notifyListeners" o algo similar. Llamando a "state ="
-    // reconstruirá automáticamente la interfaz de usuario cuando sea necesario.
-
-    //!AQUI PONDREMOS QUE SE GUARDEN LAS COSAS
   }
 }
 

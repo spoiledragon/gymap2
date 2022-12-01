@@ -4,11 +4,9 @@ import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gymap/Extras/CustomClipper.dart';
-import 'package:gymap/MainScreens/configScreen.dart';
 import 'package:gymap/States/states.dart';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:ionicons/ionicons.dart';
 
 class ProfileScreen extends HookConsumerWidget {
   const ProfileScreen({super.key});

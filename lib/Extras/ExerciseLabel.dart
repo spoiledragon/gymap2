@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gymap/SimpleScreens/exercisesScreen/exerciseViews/customExerciseScreen.dart';
 import 'package:gymap/classes/localExercise.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:ionicons/ionicons.dart';
@@ -110,7 +109,7 @@ class ExerciseWidget extends HookConsumerWidget {
             style: GoogleFonts.karla(fontSize: 20),
           )),
         ),
-        const Icon(Ionicons.arrow_forward_sharp),
+        const Icon(Ionicons.chevron_forward_outline),
         Expanded(
           child: Center(
             child: Text(

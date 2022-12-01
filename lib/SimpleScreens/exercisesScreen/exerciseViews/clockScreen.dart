@@ -6,11 +6,9 @@ import 'package:gymap/Extras/clock.dart';
 import 'package:gymap/Extras/secondClock.dart';
 import 'package:gymap/MainScreens/configScreen.dart';
 
-import 'package:gymap/States/states.dart';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:ionicons/ionicons.dart';
-import 'package:recase/recase.dart';
 
 class ClocksScreen extends ConsumerStatefulWidget {
   const ClocksScreen({

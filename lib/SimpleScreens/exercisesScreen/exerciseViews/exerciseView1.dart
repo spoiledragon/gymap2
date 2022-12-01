@@ -1,10 +1,16 @@
 // ignore_for_file: file_names
 
+import 'dart:developer';
+
+import 'package:d_chart/d_chart.dart';
+
 import 'package:flutter/material.dart';
 import 'package:gymap/Extras/customTable.dart';
 import 'package:gymap/States/states.dart';
+
 import 'package:gymap/classes/localExercise.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 class ExerciseView1 extends ConsumerStatefulWidget {
   const ExerciseView1({super.key, required this.exercise});
@@ -15,6 +21,10 @@ class ExerciseView1 extends ConsumerStatefulWidget {
 
 class _ExerciseView1State extends ConsumerState<ExerciseView1> {
   @override
+  void initState() {
+    super.initState();
+  }
+
   Widget build(BuildContext context) {
     //Provider de si esta completo que se actualiza cada que el contador del clock 1 llega a 0
     final complete = ref.watch(completeProvider);
@@ -42,23 +52,19 @@ class _ExerciseView1State extends ConsumerState<ExerciseView1> {
         CustomTable(
             string1: "Sets Done Today", string2: complete.toString(), color: 5),
 
-        /*
-            MaterialButton(
+        MaterialButton(
           onPressed: () {
             //?actualizamos el estado del provider con el nombre del ejercicio
             //revisamos que no sea el mismo ejercicio
             if (ref.read(currentExerciseProvider) != widget.exercise.name) {
               ref.read(currentExerciseProvider.state).state =
                   widget.exercise.name;
-              //?actualizamos el estado del provider con la cantidad de sets que deben de ser
-              ref.read(currentSetsToDoProvider.state).state =
-                  widget.exercise.sets;
-              //?Ponemos los completados en 0
-              ref.read(completeProvider.state).state = 0;
-              //?vamos a la pagina de los relojes para trackearlo correctamente
+              ref.read(controllerExerciseProvider.state).state.nextPage(
+                  duration: const Duration(milliseconds: 500),
+                  curve: Curves.easeIn);
             }
           },
-          child: GradientText("Track Exercise", colors: const [
+          child: GradientText("Show My Progress", colors: const [
             Colors.red,
             Colors.orange,
             Colors.yellow,
@@ -67,9 +73,7 @@ class _ExerciseView1State extends ConsumerState<ExerciseView1> {
             Colors.indigo,
             Colors.purple
           ]),
-        )
-            
-             */
+        ),
       ],
     );
   }
