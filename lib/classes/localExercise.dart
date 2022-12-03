@@ -1,31 +1,32 @@
 // ignore_for_file: file_names
 
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:gymap/States/states.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 
-//Dia de hoy
+List<LocalExercise> localExerciseFromJson(String str) =>
+    List<LocalExercise>.from(
+        json.decode(str).map((x) => LocalExercise.fromJson(x)));
 
-List<LocalExercise> exercisesFromJson(String str) => List<LocalExercise>.from(
-    json.decode(str).map((x) => LocalExercise.fromJson(x)));
-
-String exercisesToJson(List<LocalExercise> data) =>
+String localExerciseToJson(List<LocalExercise> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class LocalExercise {
-  LocalExercise(
-      {required this.name,
-      required this.group,
-      required this.weight,
-      required this.sets,
-      required this.reps,
-      required this.color,
-      required this.days,
-      required this.complete,
-      required this.completeds});
+  LocalExercise({
+    required this.name,
+    required this.group,
+    required this.weight,
+    required this.sets,
+    required this.reps,
+    required this.color,
+    required this.complete,
+    required this.days,
+    required this.completeds,
+  });
 
   String name;
   String group;
@@ -35,7 +36,7 @@ class LocalExercise {
   int color;
   bool complete;
   List<String> days;
-  List<CompletedExercises> completeds;
+  List<Completed> completeds;
 
   factory LocalExercise.fromJson(Map<String, dynamic> json) => LocalExercise(
         name: json["name"],
@@ -46,8 +47,8 @@ class LocalExercise {
         color: json["color"],
         complete: json["complete"],
         days: List<String>.from(json["days"].map((x) => x)),
-        completeds: List<CompletedExercises>.from(
-            json["completeds"].map((x) => CompletedExercises.fromJson(x))),
+        completeds: List<Completed>.from(
+            json["completeds"].map((x) => Completed.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -59,25 +60,32 @@ class LocalExercise {
         "color": color,
         "complete": complete,
         "days": List<dynamic>.from(days.map((x) => x)),
-        "exercises": List<dynamic>.from(completeds.map((x) => x.toJson())),
+        "completeds": List<dynamic>.from(completeds.map((x) => x.toJson())),
       };
 }
 
-class CompletedExercises {
-  final String date;
+class Completed {
+  Completed({
+    required this.name,
+    required this.date,
+    required this.weight,
+  });
 
-  final String name;
-  final String weight;
+  String name;
+  DateTime date;
+  String weight;
 
-  CompletedExercises(
-      {required this.date, required this.name, required this.weight});
+  factory Completed.fromJson(Map<String, dynamic> json) => Completed(
+        name: json["name"],
+        date: DateTime.parse(json["date"]),
+        weight: json["weight"],
+      );
 
-  factory CompletedExercises.fromJson(Map<String, dynamic> json) =>
-      CompletedExercises(
-          name: json["name"], date: json["date"], weight: json["weight"]);
-
-  Map<String, dynamic> toJson() =>
-      {"name": name, "date": date, "weight": weight};
+  Map<String, dynamic> toJson() => {
+        "name": name,
+        "date": date.toIso8601String(),
+        "weight": weight,
+      };
 }
 
 class LocalExerciseNotifier extends StateNotifier<List<LocalExercise>> {
@@ -143,19 +151,33 @@ class LocalExerciseNotifier extends StateNotifier<List<LocalExercise>> {
 
   void addComplete(
     String name,
-    CompletedExercises hello,
+    Completed hello,
   ) {
     for (var exe in state) {
       if (exe.name == name) {
         exe.completeds.add(hello);
       }
     }
+    savebitches();
+  }
+
+  modify(String name, int sets, int weight, int reps) {
+    for (var exe in state) {
+      if (exe.name == name) {
+        exe.sets = sets;
+        exe.weight = weight;
+        exe.reps = reps;
+      }
+    }
+    state = [...state];
+    savebitches();
   }
 
   savebitches() async {
     final prefs = await SharedPreferences.getInstance();
 
     prefs.setString('Exercises', jsonEncode(state));
+    log(jsonEncode(state));
   }
 
   bool exist(name) {
@@ -221,14 +243,21 @@ final filterListProvider = StateProvider<List<LocalExercise>>(((ref) {
       .toList();
 }));
 
-final logsProvider = StateProvider<List<CompletedExercises>>(((ref) {
+final logsProvider = StateProvider<List<Completed>>(((ref) {
+  //lista de los ejercicios de hoy
   final lista = ref.watch(todayList);
-  List<CompletedExercises> lista2 = [];
+  //lista vacia por si acazo
+  final List<Completed> listita = [];
+  //revisamos el nombre del seleccionado
   final nombre = ref.watch(currentExerciseProvider);
   for (var exe in lista) {
-    if (exe.name == nombre) {
-      lista2 = exe.completeds;
+    if (exe.name.toLowerCase() == nombre.toLowerCase()) {
+      log("si");
+      for (var log in exe.completeds) {
+        listita.add(log);
+      }
+      log(listita.length.toString());
     }
   }
-  return lista2;
+  return listita;
 }));

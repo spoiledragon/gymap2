@@ -30,7 +30,6 @@ class _ClockState extends ConsumerState<Clock> {
     bool isRunning = ref.watch(runingProvider);
     //FUNCIONES
 
-
     void pauseTimer() {
       ref.read(runingProvider.state).state = false;
       timer?.cancel();
@@ -44,15 +43,12 @@ class _ClockState extends ConsumerState<Clock> {
     }
 
     void starttimer() {
-     
-
       //Funcion que si me deja avanzar como si nada
       if (ref.read(runingProvider.state).state == false) {
         ref.read(runingProvider.state).state = true;
         //timer que decrementa cada segundoi
         // ignore: avoid_types_as_parameter_names
-        timer = Timer.periodic(const Duration(milliseconds: 1),
-            (Timer Timer) async {
+        timer = Timer.periodic(const Duration(seconds: 1), (Timer Timer) async {
           //el no va a parar
           //!Si el segundero es mayor a 0 y esta corriendo
           if (ref.read(secondtickProvider.state).state > 0) {

@@ -1,5 +1,7 @@
 // ignore_for_file: file_names, no_leading_underscores_for_local_identifiers
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -130,8 +132,8 @@ class ExercisePage extends HookConsumerWidget {
                               DateTime rightNow = DateTime(DateTime.now().year,
                                   DateTime.now().month, DateTime.now().day);
                               //!Creamos la instancia de completedExercise
-                              final hello = CompletedExercises(
-                                  date: rightNow.toString(),
+                              final hello = Completed(
+                                  date: rightNow,
                                   name: ejercicio.name,
                                   weight: ejercicio.weight.toString());
                               ref
@@ -149,8 +151,15 @@ class ExercisePage extends HookConsumerWidget {
                         child: Center(
                           child: InkWell(
                             onTap: () {
+                              //decimos cual ejercicio
                               ref.read(currentExerciseProvider.state).state =
                                   ejercicio.name;
+                              //Pasamos la cantidad de sets al provider
+                              ref.read(setEditingProvider.state).state =
+                                  ejercicio.sets;
+                              log(ref
+                                  .read(currentExerciseProvider.state)
+                                  .state);
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: ((context) => SingleExerciseScreen(
                                       exercise: ejercicio))));

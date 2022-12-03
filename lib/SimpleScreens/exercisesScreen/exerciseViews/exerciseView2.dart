@@ -1,5 +1,7 @@
 // ignore_for_file: file_names
 
+import 'dart:developer';
+
 import 'package:gymap/classes/localExercise.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
@@ -19,16 +21,16 @@ class _ExerciseView2State extends ConsumerState<ExerciseView2> {
   @override
   Widget build(BuildContext context) {
     final logsList = ref.watch(logsProvider);
-
+    log(logsList.toString());
     return ListView.builder(
       scrollDirection: Axis.vertical,
       itemCount: logsList.length,
       itemBuilder: (context, index) {
         final loger = logsList[index];
         //sacamos la fecha en pedazos porque si no se hace un mega desmadre
-        final datelog = DateTime.parse(loger.date);
+        //final DateTime datelog = DateTime.parse(loger.date);
         final DateFormat formatter = DateFormat('yyyy-MM-dd');
-        final String formatted = formatter.format(datelog);
+        final String formatted = formatter.format(loger.date);
         //!Regresamos el widget
         return logLabel(formatted: formatted, loger: loger);
       },
@@ -46,7 +48,7 @@ class logLabel extends StatelessWidget {
   }) : super(key: key);
 
   final String formatted;
-  final CompletedExercises loger;
+  final Completed loger;
 
   @override
   Widget build(BuildContext context) {

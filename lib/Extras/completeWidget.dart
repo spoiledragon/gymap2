@@ -49,6 +49,8 @@ class _CompleteWidgetState extends ConsumerState<CompleteWidget> {
         ),
         onPressed: () {
           ref.read(currentExerciseProvider.state).state = widget.exercise.name;
+          //Pasamos la cantidad de sets al provider
+          ref.read(setEditingProvider.state).state = widget.exercise.sets;
           Navigator.of(context).push(MaterialPageRoute(
               builder: ((context) =>
                   SingleExerciseScreen(exercise: widget.exercise))));

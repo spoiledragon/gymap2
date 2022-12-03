@@ -57,7 +57,7 @@ class SplashScreen extends HookConsumerWidget {
       for (int i = 0; i < jsonlogs.length; i++) {
         var log = jsonlogs[i];
 
-        CompletedExercises x = CompletedExercises.fromJson(log);
+        Completed x = Completed.fromJson(log);
       }
     }
 

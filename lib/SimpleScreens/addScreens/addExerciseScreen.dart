@@ -2,6 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gymap/Extras/ExerciseLabel.dart';
@@ -163,7 +164,7 @@ class _AddExerciseScreenState extends ConsumerState<AddExerciseScreen> {
         } else {
           ref.read(localExerciseProvider.notifier).addExercise(tester);
           ref.read(nameAddProvider.state).state = "";
-          ref.read(groupAddProvider.state).state = "";
+          ref.read(groupAddProvider.state).state = "Chest";
           ref.read(weightAddProvider.state).state = 1;
           ref.read(setsAddProvider.state).state = 1;
           ref.read(repsAddProvider.state).state = 1;
@@ -274,6 +275,10 @@ class _AddExerciseScreenState extends ConsumerState<AddExerciseScreen> {
                 color: Colors.black, fontWeight: FontWeight.bold),
             controller: weightEditingController,
             keyboardType: TextInputType.number,
+            inputFormatters: [
+              FilteringTextInputFormatter.digitsOnly,
+              FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+            ],
             decoration: InputDecoration(
                 filled: false,
 

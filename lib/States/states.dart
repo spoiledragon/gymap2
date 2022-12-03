@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:gymap/classes/localExercise.dart';
 import 'package:gymap/classes/user.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -43,6 +44,19 @@ final userProvider = StateProvider<User>((ref) {
       gymBro: "Random");
 });
 
+final currentExerciseProviderData = StateProvider<LocalExercise>((ref) {
+  return LocalExercise(
+      name: "",
+      group: "",
+      weight: 0,
+      sets: 0,
+      reps: 0,
+      color: 1,
+      complete: false,
+      days: [],
+      completeds: []);
+});
+
 //Reloj
 final timeGlobalProvider = StateProvider<int>((ref) {
   return ref.read(userProvider.state).state.restTime;
@@ -73,5 +87,16 @@ final currentExerciseProvider = StateProvider<String>((ref) {
   return "";
 });
 final currentSetsToDoProvider = StateProvider<int>((ref) {
+  return 0;
+});
+
+//Para edicion papi
+final setEditingProvider = StateProvider<int>((ref) {
+  return 0;
+});
+final weightEditingProvider = StateProvider<int>((ref) {
+  return 0;
+});
+final repsEditingProvider = StateProvider<int>((ref) {
   return 0;
 });
