@@ -157,9 +157,11 @@ class ExercisePage extends HookConsumerWidget {
                               //Pasamos la cantidad de sets al provider
                               ref.read(setEditingProvider.state).state =
                                   ejercicio.sets;
-                              log(ref
-                                  .read(currentExerciseProvider.state)
-                                  .state);
+                              ref.read(weightEditingProvider.state).state =
+                                  ejercicio.weight;
+                              ref.read(repsEditingProvider.state).state =
+                                  ejercicio.reps;
+
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: ((context) => SingleExerciseScreen(
                                       exercise: ejercicio))));

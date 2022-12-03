@@ -1,6 +1,5 @@
 // ignore_for_file: file_names
 
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gymap/Extras/customTable.dart';
@@ -38,10 +37,11 @@ class _ExerciseView1State extends ConsumerState<ExerciseView1> {
         CustomTable(string1: "Group", string2: widget.exercise.group, color: 1),
         //Sets
         CustomTable(string1: "Sets", string2: sets.toString(), color: 2),
-        //Peso
-        CustomTable(string1: "Weight", string2: weight.toString(), color: 3),
+
         //Reps
         CustomTable(string1: "Reps", string2: reps.toString(), color: 4),
+        //Peso
+        CustomTable(string1: "Weight", string2: weight.toString(), color: 3),
         //Completados
         CustomTable(
             string1: "Sets Done Today", string2: complete.toString(), color: 5),

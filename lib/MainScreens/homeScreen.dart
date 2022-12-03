@@ -144,33 +144,38 @@ class HomeScreen extends HookConsumerWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: IconButton(
-                          icon: const Icon(
-                            Ionicons.person_circle,
-                            size: 40,
+                    Stack(
+                      children: [
+                        Align(
+                          alignment: Alignment.topRight,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: IconButton(
+                              icon: const Icon(
+                                Ionicons.person_circle,
+                                size: 40,
+                              ),
+                              onPressed: () => Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const ProfileScreen())),
+                            ),
                           ),
-                          onPressed: () => Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (context) => const ProfileScreen())),
                         ),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Text(
-                          'Good ${greeting()}',
-                          style: const TextStyle(
-                              color: Color.fromARGB(255, 152, 152, 152),
-                              fontSize: 28,
-                              fontWeight: FontWeight.w900),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Text(
+                              'Good ${greeting()}',
+                              style: const TextStyle(
+                                  color: Color.fromARGB(255, 152, 152, 152),
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.w900),
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
                     Align(
                       alignment: Alignment.centerLeft,
