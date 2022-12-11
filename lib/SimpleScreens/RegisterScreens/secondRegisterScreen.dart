@@ -2,6 +2,8 @@
 
 import 'dart:developer';
 
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,6 +13,12 @@ import 'package:gymap/States/states.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:image_picker/image_picker.dart';
+
+final imageProvider = StateProvider<XFile>((ref) {
+  final a = XFile('lib/Assets/images/p1.jpg');
+  return a;
+});
 
 class SecondScreen extends ConsumerStatefulWidget {
   const SecondScreen({super.key});
@@ -20,6 +28,7 @@ class SecondScreen extends ConsumerStatefulWidget {
 }
 
 class _SecondScreenState extends ConsumerState<SecondScreen> {
+  final ImagePicker _picker = ImagePicker();
   @override
   Widget build(BuildContext context) {
     onGenderChange(value) {
@@ -39,6 +48,7 @@ class _SecondScreenState extends ConsumerState<SecondScreen> {
     final genderText = ref.watch(genderRegisterProvider);
     final weightText = ref.watch(weightRegisterProvider);
     final ageText = ref.watch(ageRegisterProvider);
+    final _imageFile = ref.watch(imageProvider);
 
     //Tostada
     void showToast(BuildContext context, mensaje) {
@@ -70,15 +80,30 @@ class _SecondScreenState extends ConsumerState<SecondScreen> {
                 ),
               ));
     }
-  //!ESTO ES LO QUE SE REGRESA
+
+    //!ESTO ES LO QUE SE REGRESA
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
+          const SizedBox(
+            height: 50,
+          ),
+          InkWell(
+            child: CircleAvatar(
+              radius: 80,
+              backgroundImage: ref.read(imageProvider) == null
+                  ? AssetImage('lib/Assets/images/p1.jpg')
+                  : AssetImage('lib/Assets/images/profile.png'),
+            ),
+            onTap: () => showBottomSheet(
+                context: context,
+                builder: ((context) => botomContainerWidget(context))),
+          ),
           //todo esto para poder elegir un genero
           genderSelecterWidget(context, controller, onGenderChange, genderText),
           const SizedBox(
-            height: 50,
+            height: 20,
           ),
           const SelecterWidget(),
           const SizedBox(
@@ -98,6 +123,38 @@ class _SecondScreenState extends ConsumerState<SecondScreen> {
           botonWidget(showToast, context),
         ],
       ),
+    );
+  }
+
+  takePhoto(ImageSource source) async {
+    final picked = await _picker.pickImage(source: source);
+
+    ref.read(imageProvider.state).state = picked!;
+  }
+
+  Container botomContainerWidget(BuildContext context) {
+    return Container(
+      height: 100,
+      width: MediaQuery.of(context).size.width,
+      child: Column(children: [
+        const Text("Choose Profile Photo"),
+        const SizedBox(
+          height: 20,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            ElevatedButton(
+              onPressed: () => takePhoto(ImageSource.gallery),
+              child: Text("Galery"),
+            ),
+            ElevatedButton(
+              onPressed: null,
+              child: Text("Camera"),
+            )
+          ],
+        )
+      ]),
     );
   }
 

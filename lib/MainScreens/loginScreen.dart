@@ -26,22 +26,24 @@ class LoginPage extends HookConsumerWidget {
   final _formKey = GlobalKey<FormState>();
   LoginPage({super.key});
   @override
+  //Controladores
+  final userNameController = TextEditingController();
+  final passwordController = TextEditingController();
   Widget build(BuildContext context, WidgetRef ref) {
-    //Controladores
-    final userNameController = TextEditingController();
-    final passwordController = TextEditingController();
-
     //FUNCION PARA TRAER TODOS LOS EJERCICIOS A LOS JSON Y GUARDALOS EN EL PROVIDER
     Future<void> readJson() async {
-      final String response =
-          await rootBundle.loadString('lib/Assets/jsons/exercises.json');
+      if (ref.read(isReadedProvider) == false) {
+        final String response =
+            await rootBundle.loadString('lib/Assets/jsons/exercises.json');
 
-      final data = await json.decode(response);
-      //POR CADA EJERCICIO LO GUARDAMOS
-      for (var exe in data) {
-        Exercises x = Exercises.fromJson(exe);
-        ref.read(exercisesProvider.notifier).addExercise(x);
-        //print(x.group);
+        final data = await json.decode(response);
+        //POR CADA EJERCICIO LO GUARDAMOS
+        for (var exe in data) {
+          Exercises x = Exercises.fromJson(exe);
+          ref.read(exercisesProvider.notifier).addExercise(x);
+          //print(x.group);
+        }
+        ref.read(isReadedProvider.state).state = true;
       }
     }
 

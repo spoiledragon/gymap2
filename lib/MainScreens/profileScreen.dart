@@ -154,7 +154,7 @@ class ProfileScreen extends HookConsumerWidget {
       child: CircleAvatar(
         foregroundColor: Colors.white,
         radius: 100,
-        backgroundImage: NetworkImage(pp),
+        backgroundImage: AssetImage('lib/Assets/images/p1.jpg'),
       ),
     );
   }

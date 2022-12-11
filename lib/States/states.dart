@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:gymap/classes/localExercise.dart';
 import 'package:gymap/classes/user.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 
 //En donde esta el index
 final homeindexProvider = StateProvider((ref) => 0);
@@ -90,7 +91,7 @@ final currentSetsToDoProvider = StateProvider<int>((ref) {
   return 0;
 });
 
-//Para edicion papi
+//!Providers de edicion
 final setEditingProvider = StateProvider<int>((ref) {
   return 0;
 });
@@ -99,4 +100,9 @@ final weightEditingProvider = StateProvider<int>((ref) {
 });
 final repsEditingProvider = StateProvider<int>((ref) {
   return 0;
+});
+
+//!Provider del guest
+final isReadedProvider = StateProvider<bool>((ref) {
+  return false;
 });
